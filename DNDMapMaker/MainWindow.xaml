@@ -5,7 +5,7 @@
     <Grid>
 		
 		
-		<ScrollViewer HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden">
+		<ScrollViewer Name="svDebug" HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden">
 			<Label Foreground="Red" Name="lblDebug" IsEnabled="False" Visibility="Hidden"></Label>
 		</ScrollViewer>
     </Grid>

@@ -26,6 +26,11 @@ namespace DNDMapMaker
 		}
 
 		// properties
+		public void setGridSize(int size)
+		{
+			m_gridSize = size;
+			scaleMap();
+		}
 
 		// functions
 
@@ -42,6 +47,14 @@ namespace DNDMapMaker
 					GridSpace s = new GridSpace(m_gridSize, x * m_gridSize, y * m_gridSize, x, y);
 					grid.Add(s);
 				}
+			}
+		}
+
+		public void scaleMap()
+		{
+			foreach (GridSpace g in grid)
+			{
+				g.setGridSize(m_gridSize);
 			}
 		}
 	}

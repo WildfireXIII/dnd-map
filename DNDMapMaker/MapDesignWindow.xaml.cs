@@ -24,6 +24,10 @@ namespace DNDMapMaker
 
 			if (Master.DISPLAY_DEBUG) { lblDebug.IsEnabled = true; lblDebug.Visibility = Visibility.Visible; }
 
+			// make sure canvas has a background
+			cnvsWorld.Background = Brushes.White;
+
+
 			Master.activeCanvas = cnvsWorld;
 			Master.assignMapWin(this);
 
@@ -38,7 +42,7 @@ namespace DNDMapMaker
 
 		// FUNCTIONS
 
-		public void log(string msg) { lblDebug.Content += msg + "\n"; }
+		public void log(string msg) { lblDebug.Content += msg + "\n"; svDebug.ScrollToBottom(); }
 
 		// EVENT HANDLERS
 	}

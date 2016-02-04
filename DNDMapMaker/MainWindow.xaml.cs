@@ -32,7 +32,7 @@ namespace DNDMapMaker
 
 		// FUNCTIONS
 
-		public void log(string msg) { lblDebug.Content += msg + "\n"; }
+		public void log(string msg) { lblDebug.Content += msg + "\n"; svDebug.ScrollToBottom(); }
 		
 
 		// EVENT HANDLERS

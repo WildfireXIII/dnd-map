@@ -11,6 +11,7 @@ namespace DNDMapMaker
 	{
 		// "constants"
 		public static bool DISPLAY_DEBUG = true;
+		public static string RES_FOLDER = "C:\\dwl\\tmp\\DNDRES\\lib";
 
 		// variables
 		private static MainWindow win;

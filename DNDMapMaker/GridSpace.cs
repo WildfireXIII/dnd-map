@@ -17,6 +17,8 @@ namespace DNDMapMaker
 		private int m_xIndex = 0;
 		private int m_yIndex = 0;
 
+		private Map m_parent;
+
 		// for when dragging around entire map
 		private int m_offsetX = 0;
 		private int m_offsetY = 0;
@@ -25,7 +27,7 @@ namespace DNDMapMaker
 		private int m_currentY = 0;
 
 		// construction
-		public GridSpace(int size, int x, int y, int xIndex, int yIndex)
+		public GridSpace(Map parent, int size, int x, int y, int xIndex, int yIndex)
 		{
 			m_size = size;
 			m_xIndex = xIndex;
@@ -33,6 +35,8 @@ namespace DNDMapMaker
 
 			m_currentX = x;
 			m_currentY = y;
+
+			m_parent = parent;
 
 			createDrawing(x, y);
 			updateGraphics();
@@ -42,18 +46,23 @@ namespace DNDMapMaker
 		public void setOffsetX(int x) { m_offsetX = x; }
 		public void setOffsetY(int y) { m_offsetY = y; }
 
+		public int getCurrentX() { return m_currentX; }
+		public int getCurrentY() { return m_currentY; }
+
 		// functions
 
 		public void setGridSize(int size)
 		{
 			m_size = size;
-			updatePosition(m_currentX, m_currentY);
+			m_body.Width = size;
+			m_body.Height = size;
+			updatePosition();
 		}
 
-		private void updatePosition(int x, int y) // pass in MOUSE POS, this function will handle offsets
+		public void updatePosition() 
 		{
-			m_currentX = m_size * m_xIndex + (x - m_offsetX);
-			m_currentY = m_size * m_yIndex + (y - m_offsetY);
+			m_currentX = m_size * m_xIndex + m_parent.getOriginX();
+			m_currentY = m_size * m_yIndex + m_parent.getOriginY();
 			Canvas.SetLeft(m_body, m_currentX);
 			Canvas.SetTop(m_body, m_currentY); 
 		}
@@ -67,7 +76,7 @@ namespace DNDMapMaker
 
 			Canvas.SetLeft(m_body, x);
 			Canvas.SetTop(m_body, y);
-			Master.mapLog("Grid square created");
+			//Master.mapLog("Grid square created"); // DEBUG
 		}
 
 		private void updateGraphics() // adds to active canvas

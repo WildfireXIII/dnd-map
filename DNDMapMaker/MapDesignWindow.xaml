@@ -7,36 +7,49 @@
 			<ColumnDefinition Width="250" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		
-		<!-- Left col -->
-		<Grid Grid.Column="0" Background="Blue">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="200" />
-			</Grid.RowDefinitions>
-			
-		</Grid>
-		
+
 		<!-- map/bottom -->
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="200" />
+				<RowDefinition Height="150" />
 			</Grid.RowDefinitions>
-			
+
 			<!-- world -->
-			<Canvas Name="cnvsWorld"></Canvas>
-			
+			<Canvas Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel"></Canvas>
+
 			<!-- bottom panel -->
-			<Grid Grid.Row="1" Background="Green">
-				
+			<Grid Grid.Row="1" Background="PaleTurquoise">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+				</Grid.RowDefinitions>
+				<Button Content="Add Resource" Click="Button_Click"></Button>
 			</Grid>
 		</Grid>
 
+		<!-- Left col -->
+		<Grid Grid.Column="0" Background="Silver">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="200" />
+			</Grid.RowDefinitions>
+			
+
+			<ListBox Grid.Row="0" Name="lbRes" SelectionChanged="lbRes_SelectionChanged"></ListBox>
+			
+			<Rectangle Grid.Row="2" Name="rPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
+			<Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>
+		</Grid>
+		
 		<!-- DEBUG LOG -->
-		<ScrollViewer Name="svDebug" HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden">
-			<Label Foreground="Red" Name="lblDebug" IsEnabled="False" Visibility="Hidden"></Label>
+		<ScrollViewer Name="svDebug" HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden" IsHitTestVisible="False">
+			<Label Foreground="Red" Name="lblDebug" IsEnabled="False" Visibility="Hidden" IsHitTestVisible="False"></Label>
 		</ScrollViewer>
 
 	</Grid>

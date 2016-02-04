@@ -1,0 +1,15 @@
+C:\dwl\lab\DND\DNDMapMaker\bin\Debug\DNDMapMaker.exe.config
+C:\dwl\lab\DND\DNDMapMaker\bin\Debug\DNDMapMaker.exe
+C:\dwl\lab\DND\DNDMapMaker\bin\Debug\DNDMapMaker.pdb
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.csprojResolveAssemblyReference.cache
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\MainWindow.baml
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\MapDesignWindow.baml
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\MainWindow.g.cs
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\MapDesignWindow.g.cs
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\App.g.cs
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker_MarkupCompile.cache
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.g.resources
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.Properties.Resources.resources
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.csproj.GenerateResource.Cache
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.exe
+C:\dwl\lab\DND\DNDMapMaker\obj\Debug\DNDMapMaker.pdb

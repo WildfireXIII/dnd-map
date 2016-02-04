@@ -1,0 +1,12 @@
+﻿<Window x:Class="DNDMapMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DND Map" Height="600" Width="800">
+    <Grid>
+		
+		
+		<ScrollViewer HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden">
+			<Label Foreground="Red" Name="lblDebug" IsEnabled="False" Visibility="Hidden"></Label>
+		</ScrollViewer>
+    </Grid>
+</Window>

@@ -24,13 +24,21 @@ namespace DNDMapMaker
 
 			if (Master.DISPLAY_DEBUG) { lblDebug.IsEnabled = true; lblDebug.Visibility = Visibility.Visible; }
 
+			Master.activeCanvas = cnvsWorld;
+			Master.assignMapWin(this);
+
+			Map m = new Map();
+
 			log("Log initialized!");
+			log("Map created!");
 		}
+
+		// PROPERTIES
+		public Canvas getCanvas() { return cnvsWorld; }
 
 		// FUNCTIONS
 
 		public void log(string msg) { lblDebug.Content += msg + "\n"; }
-		public void clearLog() { lblDebug.Content = ""; }
 
 		// EVENT HANDLERS
 	}

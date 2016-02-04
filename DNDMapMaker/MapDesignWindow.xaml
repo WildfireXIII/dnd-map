@@ -3,9 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Map Design" Height="600" Width="800">
 	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="250" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		
+		<!-- Left col -->
+		<Grid Grid.Column="0" Background="Blue">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="200" />
+			</Grid.RowDefinitions>
+			
+		</Grid>
+		
+		<!-- map/bottom -->
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="200" />
+			</Grid.RowDefinitions>
+			
+			<!-- world -->
+			<Canvas Name="cnvsWorld"></Canvas>
+			
+			<!-- bottom panel -->
+			<Grid Grid.Row="1" Background="Green">
+				
+			</Grid>
+		</Grid>
 
+		<!-- DEBUG LOG -->
 		<ScrollViewer HorizontalAlignment="Left" Width="300" VerticalScrollBarVisibility="Hidden">
 			<Label Foreground="Red" Name="lblDebug" IsEnabled="False" Visibility="Hidden"></Label>
 		</ScrollViewer>
+
 	</Grid>
 </Window>

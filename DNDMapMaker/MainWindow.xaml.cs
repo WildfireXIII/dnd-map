@@ -25,7 +25,7 @@ namespace DNDMapMaker
 
 			// get map window
 			MapDesignWindow mapWin = new MapDesignWindow();
-			mapWin.Show();
+			mapWin.ShowDialog();
 
 			log("Log initialized!");
 		}
@@ -33,7 +33,6 @@ namespace DNDMapMaker
 		// FUNCTIONS
 
 		public void log(string msg) { lblDebug.Content += msg + "\n"; }
-		public void clearLog() { lblDebug.Content = ""; }
 		
 
 		// EVENT HANDLERS

@@ -58,6 +58,11 @@ namespace DNDMapMaker
 
 		// functions
 
+		public void addResource(string resName)
+		{
+			Entity e = new Entity(resName);
+		}
+
 		private void createGrid()
 		{
 			int numX = (int)(m_sizeX / m_gridSize);

@@ -60,7 +60,7 @@ namespace DNDMapMaker
 
 		private void addResource(string resName)
 		{
-
+			m_currentMap.addResource(resName);
 		}
 
 		private void setPreviewPaneImage(string resName)
@@ -161,7 +161,8 @@ namespace DNDMapMaker
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-
+			ListBoxItem selected = (ListBoxItem)lbRes.SelectedItem;
+			addResource(selected.Content.ToString());
 		}
 	}
 }

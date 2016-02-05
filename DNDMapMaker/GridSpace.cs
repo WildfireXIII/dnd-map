@@ -49,6 +49,8 @@ namespace DNDMapMaker
 		public int getCurrentX() { return m_currentX; }
 		public int getCurrentY() { return m_currentY; }
 
+		public void setColor(Color c) { m_body.Stroke = new SolidColorBrush(c);  }
+
 		// functions
 
 		public void setGridSize(int size)
@@ -73,6 +75,7 @@ namespace DNDMapMaker
 			m_body.Stroke = new SolidColorBrush(Colors.Black);
 			m_body.Height = m_size;
 			m_body.Width = m_size;
+			Canvas.SetZIndex(m_body, 100);
 
 			Canvas.SetLeft(m_body, x);
 			Canvas.SetTop(m_body, y);

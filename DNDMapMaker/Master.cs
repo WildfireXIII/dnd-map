@@ -10,7 +10,7 @@ namespace DNDMapMaker
 	class Master
 	{
 		// "constants"
-		public static bool DISPLAY_DEBUG = true;
+		public static bool DISPLAY_DEBUG = false;
 		public static string RES_FOLDER = "C:\\dwl\\tmp\\DNDRES\\lib";
 
 		// variables
@@ -18,10 +18,16 @@ namespace DNDMapMaker
 		private static MapDesignWindow mapWin;
 
 		public static Canvas activeCanvas;
+		//public static bool isMapActive; // true if mapDesignWindow open, false if not
 
 		// properties
 		//public static Canvas getMapCanvas() { return mapWin.getCanvas(); }
 		
+		public static void setDraggingEntity(bool isDragging, Entity draggingEntity) { mapWin.setDraggingEntity(isDragging, draggingEntity); }
+		public static void setMapOffsetX(int off) { mapWin.setMapOffsetX(off); }
+		public static void setMapOffsetY(int off) { mapWin.setMapOffsetY(off); }
+		//public static int getMapOffsetX() { return mapWin.getMapOffsetX(); }
+		//public static int getMapOffsetY() { return mapWin.getMapOffsetY(); }
 
 
 		// functions

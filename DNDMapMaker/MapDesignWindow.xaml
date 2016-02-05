@@ -21,14 +21,21 @@
 			<!-- bottom panel -->
 			<Grid Grid.Row="1" Background="PaleTurquoise">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="auto" />
-					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="200"/>
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="auto" />
-					<RowDefinition Height="auto" />
-				</Grid.RowDefinitions>
-				<Button Content="Add Resource" Click="Button_Click"></Button>
+				
+				<Grid Grid.Column="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto" />
+						<ColumnDefinition Width="auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="auto" />
+					</Grid.RowDefinitions>
+					<Button Content="Add Resource" Click="Button_Click"></Button>
+				</Grid>
 			</Grid>
 		</Grid>
 
@@ -42,6 +49,8 @@
 			
 
 			<ListBox Grid.Row="0" Name="lbRes" SelectionChanged="lbRes_SelectionChanged"></ListBox>
+			
+			<ListBox Grid.Row="1" Name="lbEntities"></ListBox>
 			
 			<Rectangle Grid.Row="2" Name="rPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
 			<Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>

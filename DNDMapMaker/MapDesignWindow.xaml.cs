@@ -23,9 +23,15 @@ namespace DNDMapMaker
 
 		// states
 		private bool m_isDraggingMap = false;
+		private bool m_isDraggingEntity = false;
+		private Entity m_draggingEntity = null;
+
+
 		private int m_draggingOffsetX = 0;
 		private int m_draggingOffsetY = 0;
 
+		private Entity m_hoverEntity = null;
+		
 		private Map m_currentMap;
 
 		// construction
@@ -55,12 +61,25 @@ namespace DNDMapMaker
 
 		// PROPERTIES
 		public Canvas getCanvas() { return cnvsWorld; }
+		public void setDraggingEntity(bool isDragging, Entity draggingEntity)
+		{
+			m_isDraggingEntity = true;
+			m_draggingEntity = draggingEntity;
+		}
 
+		public void setMapOffsetX(int off) { m_draggingOffsetX = off; }
+		public void setMapOffsetY(int off) { m_draggingOffsetY = off; }
+		//public int getMapOffsetX() { return m_draggingOffsetX; }
+		//public int getMapOffsetY() { return m_draggingOffsetY; }
+		
 		// FUNCTIONS
 
 		private void addResource(string resName)
 		{
-			m_currentMap.addResource(resName);
+			Entity e = m_currentMap.addResource(resName);
+			ListBoxItem item = new ListBoxItem();
+			item.Content = e;
+			lbEntities.Items.Add(item);
 		}
 
 		private void setPreviewPaneImage(string resName)
@@ -83,6 +102,8 @@ namespace DNDMapMaker
 		}
 
 		public void log(string msg) { lblDebug.Content += msg + "\n"; svDebug.ScrollToBottom(); }
+
+		// EVENT HANDLERS
 
 		private void cnvsWorld_MouseDown(object sender, MouseButtonEventArgs e)
 		{
@@ -113,6 +134,14 @@ namespace DNDMapMaker
 
 				m_currentMap.setGridPos(x, y);
 			}
+			else if (m_isDraggingEntity)
+			{
+				Point p = e.GetPosition(cnvsWorld);
+				int x = (int)p.X - m_draggingOffsetX;
+				int y = (int)p.Y - m_draggingOffsetY;
+
+				m_draggingEntity.move(x, y);
+			}
 		}
 
 		private void cnvsWorld_MouseUp(object sender, MouseButtonEventArgs e)
@@ -120,6 +149,15 @@ namespace DNDMapMaker
 			if (m_isDraggingMap)
 			{
 				m_isDraggingMap = false;
+				m_draggingOffsetX = 0;
+				m_draggingOffsetY = 0;
+			}
+			else if (m_isDraggingEntity)
+			{
+				if (m_draggingEntity.isSelected()) { m_draggingEntity.setHighlight(Colors.Green); }
+				else { m_draggingEntity.setHighlight(Colors.Transparent); }
+				
+				m_isDraggingEntity = false;
 				m_draggingOffsetX = 0;
 				m_draggingOffsetY = 0;
 			}
@@ -132,7 +170,8 @@ namespace DNDMapMaker
 			//int increase = m_cu
 			if (e.Delta > 0) 
 			{
-				int increase = (int)(m_currentMap.getGridSize() * 1.1); // how much each individual square will increase
+				//int increase = (int)(m_currentMap.getGridSize() * 1.1); // how much each individual square will increase
+				int increase = (int)(m_currentMap.getGridSize() + 2); // how much each individual square will increase
 				//int dsize = increase - m_currentMap.getGridSize();
 				//int xAdjusted = (int)(m_currentMap.getOriginX() - (dsize * m_currentMap.getGridSquaresX()) / 2);
 				//int yAdjusted = (int)(m_currentMap.getOriginY() - (dsize * m_currentMap.getGridSquaresY()) / 2);
@@ -141,7 +180,8 @@ namespace DNDMapMaker
 			}
 			else if (e.Delta < 0) 
 			{
-				int decrease = (int)(m_currentMap.getGridSize() * .9);
+				int decrease = (int)(m_currentMap.getGridSize() - 2);
+				//int decrease = (int)(m_currentMap.getGridSize() * .9);
 				//int dsize = m_currentMap.getGridSize() - decrease;
 				//int xAdjusted = (int)(m_currentMap.getOriginX() + (dsize * m_currentMap.getGridSquaresX()) / 2);
 				//int yAdjusted = (int)(m_currentMap.getOriginY() + (dsize * m_currentMap.getGridSquaresY()) / 2);
@@ -149,8 +189,6 @@ namespace DNDMapMaker
 				//m_currentMap.setGridPos(xAdjusted, yAdjusted);
 			}
 		}
-
-		// EVENT HANDLERS
 
 		private void lbRes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{

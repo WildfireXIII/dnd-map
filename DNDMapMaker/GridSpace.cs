@@ -20,11 +20,11 @@ namespace DNDMapMaker
 		private Map m_parent;
 
 		// for when dragging around entire map
-		private int m_offsetX = 0;
-		private int m_offsetY = 0;
+		private double m_offsetX = 0;
+		private double m_offsetY = 0;
 
-		private int m_currentX = 0;
-		private int m_currentY = 0;
+		private double m_currentX = 0;
+		private double m_currentY = 0;
 
 		// construction
 		public GridSpace(Map parent, int size, int x, int y, int xIndex, int yIndex)
@@ -43,11 +43,11 @@ namespace DNDMapMaker
 		}
 
 		// properties
-		public void setOffsetX(int x) { m_offsetX = x; }
-		public void setOffsetY(int y) { m_offsetY = y; }
+		public void setOffsetX(double x) { m_offsetX = x; }
+		public void setOffsetY(double y) { m_offsetY = y; }
 
-		public int getCurrentX() { return m_currentX; }
-		public int getCurrentY() { return m_currentY; }
+		public double getCurrentX() { return m_currentX; }
+		public double getCurrentY() { return m_currentY; }
 
 		public void setColor(Color c) { m_body.Stroke = new SolidColorBrush(c);  }
 
@@ -71,7 +71,7 @@ namespace DNDMapMaker
 
 		private void createDrawing(int x, int y)
 		{
-			m_body.StrokeThickness = .5;
+			m_body.StrokeThickness = .25;
 			m_body.Stroke = new SolidColorBrush(Colors.Black);
 			m_body.Height = m_size;
 			m_body.Width = m_size;

@@ -19,11 +19,14 @@ namespace DNDMapMaker
 		private ImageBrush m_bgImage;
 		private string m_resName;
 
-		private int m_currentX = 0;
-		private int m_currentY = 0;
+		private double m_currentX = 0;
+		private double m_currentY = 0;
 
-		private int m_gridX = 0; // offset from grid origin
-		private int m_gridY = 0;
+		private double m_gridX = 0; // offset from grid origin
+		private double m_gridY = 0;
+
+		private int m_gridSpaceX = 0; // relative gridspace position closest to top left (set when locked)
+		private int m_gridSpaceY = 0; 
 
 		private bool m_isSelected = false;
 		private bool m_isLocked = false;
@@ -41,11 +44,11 @@ namespace DNDMapMaker
 		}
 
 		// properties
-		public int getCurrentX() { return m_currentX; }
-		public int getCurrentY() { return m_currentY; }
+		public double getCurrentX() { return m_currentX; }
+		public double getCurrentY() { return m_currentY; }
 
-		public int getGridX() { return m_gridX; }
-		public int getGridY() { return m_gridY; }
+		public double getGridX() { return m_gridX; }
+		public double getGridY() { return m_gridY; }
 
 		public bool isLocked() { return m_isLocked; }
 		public void setLocked(bool locked) 
@@ -53,6 +56,7 @@ namespace DNDMapMaker
 			m_isLocked = locked;
 			m_gridX = m_currentX - m_parent.getOriginX();
 			m_gridY = m_currentY - m_parent.getOriginY();
+			//m_gridSpaceX = (int)(m_gridX / m_parent.getGridSize());
 		}
 
 		public bool isSelected() { return m_isSelected; }
@@ -84,10 +88,48 @@ namespace DNDMapMaker
 
 		public void scale() 
 		{ 
+			// find place to move left point
+			//int gridSize = m_parent.getGridSize();
+			//int originX = m_parent.getOriginX();
+
+			// get original ratio
+			int oldGridSizeX = m_parent.getLastGridSize() * m_parent.getGridSquaresX();
+			int newGridSizeX = m_parent.getGridSize() * m_parent.getGridSquaresX();
+			int oldGridSizeY = m_parent.getLastGridSize() * m_parent.getGridSquaresY();
+			int newGridSizeY = m_parent.getGridSize() * m_parent.getGridSquaresY();
+
+			double leftRatio = ((double)m_gridX / (double)oldGridSizeX);
+			m_gridX = newGridSizeX * leftRatio;
+
+			double rightRatio = ((double)(m_gridX + m_body.Width) / (double)oldGridSizeX);
+			m_body.Width = newGridSizeX * rightRatio - m_gridX;
+			
+			double topRatio = ((double)m_gridY / (double)oldGridSizeY);
+			m_gridY = newGridSizeY * leftRatio;
+
+			double bottomRatio = ((double)(m_gridY + m_body.Height) / (double)oldGridSizeY);
+			m_body.Height = newGridSizeY * bottomRatio - m_gridY;
+
+
+			/*Master.mapLog("newgridx: " + m_gridX);
+			Master.mapLog("ratio: " + leftRatio);
+			Master.mapLog("OldTotalGridSizeX: " + oldGridSizeX);
+			Master.mapLog("newTotalGridSizeX: " + newGridSizeX);
+			Master.mapLog("lastGridSize: " + m_parent.getLastGridSize());
+			Master.mapLog("GridSize: " + m_parent.getGridSize());*/
+
+
+			//int newX = (int)(m_gridSpaceX*gridSize + originX);
+
+			//m_gridX = (newX - originX);
+
+			move(m_gridX + m_parent.getOriginX(), m_gridY + m_parent.getOriginY());
+
+			//int originY = m
 
 		}
 
-		public void move(int x, int y)
+		public void move(double x, double y)
 		{
 			m_currentX = x;
 			m_currentY = y;

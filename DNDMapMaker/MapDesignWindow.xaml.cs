@@ -27,12 +27,14 @@ namespace DNDMapMaker
 		private Entity m_draggingEntity = null;
 
 
-		private int m_draggingOffsetX = 0;
-		private int m_draggingOffsetY = 0;
+		private double m_draggingOffsetX = 0;
+		private double m_draggingOffsetY = 0;
 
 		private Entity m_hoverEntity = null;
 		
 		private Map m_currentMap;
+
+		private ScaleTransform m_scale = new ScaleTransform();
 
 		// construction
 		public MapDesignWindow()
@@ -57,6 +59,8 @@ namespace DNDMapMaker
 			m.setGridPos(20, 20);
 
 			fillResourceList();
+
+			cnvsWorld.RenderTransform = m_scale;
 		}
 
 		// PROPERTIES
@@ -67,8 +71,8 @@ namespace DNDMapMaker
 			m_draggingEntity = draggingEntity;
 		}
 
-		public void setMapOffsetX(int off) { m_draggingOffsetX = off; }
-		public void setMapOffsetY(int off) { m_draggingOffsetY = off; }
+		public void setMapOffsetX(double off) { m_draggingOffsetX = off; }
+		public void setMapOffsetY(double off) { m_draggingOffsetY = off; }
 		//public int getMapOffsetX() { return m_draggingOffsetX; }
 		//public int getMapOffsetY() { return m_draggingOffsetY; }
 		
@@ -127,18 +131,18 @@ namespace DNDMapMaker
 			if (m_isDraggingMap)
 			{
 				Point p = e.GetPosition(cnvsWorld);
-				int x = (int)p.X - m_draggingOffsetX;
-				int y = (int)p.Y - m_draggingOffsetY;
+				double x = p.X - m_draggingOffsetX;
+				double y = p.Y - m_draggingOffsetY;
 
 				//log("Move coordinates (" + x + "," + y + ")"); // DEBUG
 
 				m_currentMap.setGridPos(x, y);
 			}
-			else if (m_isDraggingEntity)
+			else if (m_isDraggingEntity) // TODO: HANDLE LOCKING (or take care of updating needed stuff in mouseup, or in entity itself)
 			{
 				Point p = e.GetPosition(cnvsWorld);
-				int x = (int)p.X - m_draggingOffsetX;
-				int y = (int)p.Y - m_draggingOffsetY;
+				double x = p.X - m_draggingOffsetX;
+				double y = p.Y - m_draggingOffsetY;
 
 				m_draggingEntity.move(x, y);
 			}
@@ -170,6 +174,7 @@ namespace DNDMapMaker
 			//int increase = m_cu
 			if (e.Delta > 0) 
 			{
+				/*
 				//int increase = (int)(m_currentMap.getGridSize() * 1.1); // how much each individual square will increase
 				int increase = (int)(m_currentMap.getGridSize() + 2); // how much each individual square will increase
 				//int dsize = increase - m_currentMap.getGridSize();
@@ -177,9 +182,14 @@ namespace DNDMapMaker
 				//int yAdjusted = (int)(m_currentMap.getOriginY() - (dsize * m_currentMap.getGridSquaresY()) / 2);
 				m_currentMap.setGridSize(increase);
 				//m_currentMap.setGridPos(xAdjusted, yAdjusted);
+				*/
+
+				m_scale.ScaleX *= 1.1;
+				m_scale.ScaleY *= 1.1;
 			}
 			else if (e.Delta < 0) 
 			{
+				/*
 				int decrease = (int)(m_currentMap.getGridSize() - 2);
 				//int decrease = (int)(m_currentMap.getGridSize() * .9);
 				//int dsize = m_currentMap.getGridSize() - decrease;
@@ -187,6 +197,9 @@ namespace DNDMapMaker
 				//int yAdjusted = (int)(m_currentMap.getOriginY() + (dsize * m_currentMap.getGridSquaresY()) / 2);
 				m_currentMap.setGridSize(decrease);
 				//m_currentMap.setGridPos(xAdjusted, yAdjusted);
+				*/
+				m_scale.ScaleX *= 0.9;
+				m_scale.ScaleY *= 0.9;
 			}
 		}
 

@@ -15,6 +15,7 @@ namespace DNDMapMaker
 		private int m_squaresX = 20;
 		private int m_squaresY = 20;
 
+		private int m_lastGridSize = 40;
 		private int m_gridSize = 40; // one side
 
 		private List<GridSpace> m_grid = new List<GridSpace>();
@@ -23,8 +24,8 @@ namespace DNDMapMaker
 		private Entity m_selectedEntity;
 
 		// upper left corner of map in comparison to canvas upper left
-		private int m_mapOriginX = 0;
-		private int m_mapOriginY = 0;
+		private double m_mapOriginX = 0;
+		private double m_mapOriginY = 0;
 
 		// construction
 		public Map()
@@ -47,6 +48,7 @@ namespace DNDMapMaker
 			m_selectedEntity.setSelected(true);
 		}
 
+		public int getLastGridSize() { return m_lastGridSize; }
 		public int getGridSize() { return m_gridSize; }
 		public void setGridSize(int size)
 		{
@@ -55,11 +57,11 @@ namespace DNDMapMaker
 			//int gridDiff = size - m_gridSize;
 			//int totalDiffX = gridDiff * m_squaresX;
 			//int totalDiffY = gridDiff * m_squaresY;
-
+			m_lastGridSize = m_gridSize;
 			m_gridSize = size;
 			scaleMap(2, 2);
 		}
-		public void setGridPos(int x, int y)
+		public void setGridPos(double x, double y)
 		{
 			//Master.mapLog("Setting map pos to (" + x + "," + y + ")"); // DEBUG
 			m_mapOriginX = x;
@@ -72,12 +74,12 @@ namespace DNDMapMaker
 			{
 				if (e.isLocked())
 				{
-					e.move(x - e.getGridX(), y - e.getGridY());
+					e.move(x + e.getGridX(), y + e.getGridY());
 				}
 			}
 		}
-		public int getOriginX() { return m_mapOriginX; }
-		public int getOriginY() { return m_mapOriginY; }
+		public double getOriginX() { return m_mapOriginX; }
+		public double getOriginY() { return m_mapOriginY; }
 
 		// functions
 
@@ -85,7 +87,7 @@ namespace DNDMapMaker
 		public Entity addResource(string resName)
 		{
 			Entity e = new Entity(this, resName);
-			//e.setLocked(true);
+			e.setLocked(true);
 			m_entities.Add(e);
 			return e;
 		}
@@ -118,7 +120,7 @@ namespace DNDMapMaker
 			{
 				if (e.isLocked())
 				{
-					//e.scale(x, y);
+					e.scale();
 				}
 			}
 		}

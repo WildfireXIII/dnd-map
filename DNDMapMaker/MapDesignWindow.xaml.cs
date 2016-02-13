@@ -30,7 +30,8 @@ namespace DNDMapMaker
 		private double m_draggingOffsetX = 0;
 		private double m_draggingOffsetY = 0;
 
-		private Entity m_hoverEntity = null;
+		//private Entity m_hoverEntity = null;
+		private Entity m_selectedEntity = null; // ONLY USED FOR PROPERTY STUFF
 		
 		private Map m_currentMap;
 
@@ -61,6 +62,8 @@ namespace DNDMapMaker
 			fillResourceList();
 
 			cnvsWorld.RenderTransform = m_scale;
+
+			disableProperties();
 		}
 
 		// PROPERTIES
@@ -75,15 +78,15 @@ namespace DNDMapMaker
 		public void setMapOffsetY(double off) { m_draggingOffsetY = off; }
 		//public int getMapOffsetX() { return m_draggingOffsetX; }
 		//public int getMapOffsetY() { return m_draggingOffsetY; }
+
+		public void setSelectedEntity(Entity e) { m_selectedEntity = e; fillPropList(); }
 		
 		// FUNCTIONS
 
 		private void addResource(string resName)
 		{
 			Entity e = m_currentMap.addResource(resName);
-			ListBoxItem item = new ListBoxItem();
-			item.Content = e;
-			lbEntities.Items.Add(item);
+			lbEntities.Items.Add(e);
 		}
 
 		private void setPreviewPaneImage(string resName)
@@ -102,6 +105,33 @@ namespace DNDMapMaker
 				ListBoxItem item = new ListBoxItem();
 				item.Content = fileName.Substring(fileName.LastIndexOf('\\') + 1);
 				lbRes.Items.Add(item);
+			}
+		}
+
+		private void fillPropList()
+		{
+			enableProperties();
+
+			txtScaleX.Text = m_selectedEntity.getScaleX().ToString();
+			txtScaleY.Text = m_selectedEntity.getScaleY().ToString();
+			txtZIndex.Text = m_selectedEntity.getZIndex().ToString();
+			txtScale.Text = "";
+			txtAngle.Text = m_selectedEntity.getAngle().ToString();
+		}
+
+		private void enableProperties()
+		{
+			for (int i = 0; i < pnlProperties.Children.Count; i++)
+			{
+				pnlProperties.Children[i].IsEnabled = true;
+			}
+			
+		}
+		private void disableProperties()
+		{
+			for (int i = 0; i < pnlProperties.Children.Count; i++)
+			{
+				pnlProperties.Children[i].IsEnabled = false;
 			}
 		}
 
@@ -169,35 +199,13 @@ namespace DNDMapMaker
 
 		private void cnvsWorld_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			//if (e.Delta > 0) { m_currentMap.setGridSize(m_currentMap.getGridSize() + 1); }
-			//if (e.Delta < 0) { m_currentMap.setGridSize(m_currentMap.getGridSize() - 1); }
-			//int increase = m_cu
 			if (e.Delta > 0) 
 			{
-				/*
-				//int increase = (int)(m_currentMap.getGridSize() * 1.1); // how much each individual square will increase
-				int increase = (int)(m_currentMap.getGridSize() + 2); // how much each individual square will increase
-				//int dsize = increase - m_currentMap.getGridSize();
-				//int xAdjusted = (int)(m_currentMap.getOriginX() - (dsize * m_currentMap.getGridSquaresX()) / 2);
-				//int yAdjusted = (int)(m_currentMap.getOriginY() - (dsize * m_currentMap.getGridSquaresY()) / 2);
-				m_currentMap.setGridSize(increase);
-				//m_currentMap.setGridPos(xAdjusted, yAdjusted);
-				*/
-
 				m_scale.ScaleX *= 1.1;
 				m_scale.ScaleY *= 1.1;
 			}
 			else if (e.Delta < 0) 
 			{
-				/*
-				int decrease = (int)(m_currentMap.getGridSize() - 2);
-				//int decrease = (int)(m_currentMap.getGridSize() * .9);
-				//int dsize = m_currentMap.getGridSize() - decrease;
-				//int xAdjusted = (int)(m_currentMap.getOriginX() + (dsize * m_currentMap.getGridSquaresX()) / 2);
-				//int yAdjusted = (int)(m_currentMap.getOriginY() + (dsize * m_currentMap.getGridSquaresY()) / 2);
-				m_currentMap.setGridSize(decrease);
-				//m_currentMap.setGridPos(xAdjusted, yAdjusted);
-				*/
 				m_scale.ScaleX *= 0.9;
 				m_scale.ScaleY *= 0.9;
 			}
@@ -210,10 +218,80 @@ namespace DNDMapMaker
 			setPreviewPaneImage(selected.Content.ToString());
 		}
 
+	
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			ListBoxItem selected = (ListBoxItem)lbRes.SelectedItem;
 			addResource(selected.Content.ToString());
 		}
+
+		private void lbEntities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Entity sel = (Entity)lbEntities.SelectedItem;
+			m_currentMap.setSelectedEntity(sel);
+		}
+
+		private void btnSetScale_Click(object sender, RoutedEventArgs e)
+		{
+			if (m_selectedEntity != null)
+			{
+				double scaleX = Double.Parse(txtScaleX.Text);
+				double scaleY = Double.Parse(txtScaleY.Text);
+
+				m_selectedEntity.scaleVerbatim(scaleX, scaleY);
+			}
+		}
+
+		private void btnSetZ_Click(object sender, RoutedEventArgs e)
+		{
+			if (m_selectedEntity != null)
+			{
+				int z = -1;
+				try { z = Int32.Parse(txtZIndex.Text); }
+				catch (Exception ex) { }
+
+				if (z < 1 || z > 99) 
+				{ 
+					System.Windows.Forms.MessageBox.Show("Z-index must be between 1 and 99 (inclusive)", "Out of bounds", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+					txtZIndex.Text = m_selectedEntity.getZIndex().ToString();
+					return; 
+				}
+
+				m_selectedEntity.setZIndex(z);
+			}
+		}
+
+		private void btnSetScaleMultiplier_Click(object sender, RoutedEventArgs e)
+		{
+			if (m_selectedEntity != null)
+			{
+				double scale = Double.Parse(txtScale.Text);
+
+				m_selectedEntity.scaleVerbatim(m_selectedEntity.getScaleX()*scale, m_selectedEntity.getScaleY()*scale);
+				txtScaleX.Text = m_selectedEntity.getScaleX().ToString();
+				txtScaleY.Text = m_selectedEntity.getScaleY().ToString();
+			}
+		}
+
+		private void btnSetAngle_Click(object sender, RoutedEventArgs e)
+		{
+			if (m_selectedEntity != null)
+			{
+				int angle = -1;
+				try { angle = Int32.Parse(txtAngle.Text); }
+				catch (Exception ex) { }
+
+				if (angle < 0 || angle > 360)
+				{
+					System.Windows.Forms.MessageBox.Show("Angle must be between 0 and 360 (inclusive)", "Out of bounds", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+					txtZIndex.Text = m_selectedEntity.getAngle().ToString();
+					return;
+				}
+
+				m_selectedEntity.setAngle(angle);
+			}
+		}
+		
 	}
 }

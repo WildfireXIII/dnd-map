@@ -46,6 +46,7 @@ namespace DNDMapMaker
 			if (m_selectedEntity != null) { m_selectedEntity.setSelected(false); }
 			m_selectedEntity = entity;
 			m_selectedEntity.setSelected(true);
+			Master.setMapSelectedEntity(m_selectedEntity);
 		}
 
 		public int getLastGridSize() { return m_lastGridSize; }

@@ -29,6 +29,9 @@ namespace DNDMapMaker
 		//public static int getMapOffsetX() { return mapWin.getMapOffsetX(); }
 		//public static int getMapOffsetY() { return mapWin.getMapOffsetY(); }
 
+		// just for properties window, that's ALL it should be used for
+		public static void setMapSelectedEntity(Entity e) { mapWin.setSelectedEntity(e); }
+
 
 		// functions
 		public static void assignMainWin(MainWindow win) { Master.win = win; }

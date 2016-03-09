@@ -60,10 +60,14 @@ namespace DNDMapMaker
 			m.setGridPos(20, 20);
 
 			fillResourceList();
+			fillMapProperties();
 
 			cnvsWorld.RenderTransform = m_scale;
 
 			disableProperties();
+
+			//mediaElement1.Source = new Uri("C:\\trol.mp3");
+			//mediaElement1.Play();
 		}
 
 		// PROPERTIES
@@ -106,6 +110,12 @@ namespace DNDMapMaker
 				item.Content = fileName.Substring(fileName.LastIndexOf('\\') + 1);
 				lbRes.Items.Add(item);
 			}
+		}
+
+		private void fillMapProperties()
+		{
+			txtSquaresX.Text = m_currentMap.getGridSquaresX().ToString();
+			txtSquaresY.Text = m_currentMap.getGridSquaresY().ToString();
 		}
 
 		private void fillPropList()
@@ -240,6 +250,11 @@ namespace DNDMapMaker
 				double scaleY = Double.Parse(txtScaleY.Text);
 
 				m_selectedEntity.scaleVerbatim(scaleX, scaleY);
+
+				/*System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\trol.mp3");
+			
+				player.Play();
+				m_selectedEntity.scaleVerbatim(10000,100000);*/
 			}
 		}
 
@@ -291,6 +306,13 @@ namespace DNDMapMaker
 
 				m_selectedEntity.setAngle(angle);
 			}
+		}
+
+		private void btnSetSquares_Click(object sender, RoutedEventArgs e)
+		{
+			int squaresX = Int32.Parse(txtSquaresX.Text);
+			int squaresY = Int32.Parse(txtSquaresY.Text);
+			m_currentMap.setGridSquareCount(squaresX, squaresY);
 		}
 		
 	}

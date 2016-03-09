@@ -31,8 +31,7 @@ namespace DNDMapMaker
 		public Map()
 		{
 			// set up initial sizes
-			m_sizeX = m_gridSize * m_squaresX;
-			m_sizeY = m_gridSize * m_squaresY;
+			configureGridSizing();
 			createGrid();
 		}
 
@@ -81,6 +80,13 @@ namespace DNDMapMaker
 		}
 		public double getOriginX() { return m_mapOriginX; }
 		public double getOriginY() { return m_mapOriginY; }
+		public void setGridSquareCount(int x, int y)
+		{
+			m_squaresX = x;
+			m_squaresY = y;
+			configureGridSizing();
+			createGrid();
+		}
 
 		// functions
 
@@ -93,8 +99,17 @@ namespace DNDMapMaker
 			return e;
 		}
 
+		private void configureGridSizing()
+		{
+			m_sizeX = m_gridSize * m_squaresX;
+			m_sizeY = m_gridSize * m_squaresY;
+		}
 		private void createGrid()
 		{
+			// clear any current instances of the grid
+			foreach (GridSpace s in m_grid) { s.deleteGraphics(); }
+			m_grid.Clear();
+
 			int numX = (int)(m_sizeX / m_gridSize);
 			int numY = (int)(m_sizeY / m_gridSize);
 

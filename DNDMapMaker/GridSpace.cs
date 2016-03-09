@@ -86,5 +86,9 @@ namespace DNDMapMaker
 		{
 			Master.activeCanvas.Children.Add(m_body);
 		}
+		public void deleteGraphics()
+		{
+			Master.activeCanvas.Children.Remove(m_body);
+		}
 	}
 }

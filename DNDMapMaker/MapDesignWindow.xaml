@@ -24,29 +24,30 @@
 			<!-- bottom panel -->
 			<Grid Grid.Row="1" Background="PaleTurquoise">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="200"/>
+					<ColumnDefinition Width="180"/>
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				
 				<Grid Grid.Column="0">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="auto" />
-						<ColumnDefinition Width="auto" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="auto" />
-						<RowDefinition Height="auto" />
-					</Grid.RowDefinitions>
 					<StackPanel>
 					<Button Content="Add Resource" Click="Button_Click"></Button>
 						<StackPanel Orientation="Horizontal">
-							<Label Padding="2">Grid Size: </Label>
+							<Label Padding="2">Grid Size - </Label>
 							<Label Padding="2">X:</Label>
 							<TextBox Name="txtSquaresX" Padding="2" Width="25"/>
 							<Label Padding="2">Y:</Label>
 							<TextBox Name="txtSquaresY" Padding="2" Width="25"/>
 							<Button Name="btnSetSquares" Padding="2" Margin="10,0,0,0" Click="btnSetSquares_Click">Set</Button>
 						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<Label Padding="2">Map Name:</Label>
+							<TextBox Name="txtMapName" Padding="2" Width="100"/>
+						</StackPanel>
+						<Button Name="btnSaveMap" Click="btnSaveMap_Click">Save Map</Button>
+						<ScrollViewer>
+							
+						</ScrollViewer>
+						<Button Name="btnLoadMap" Click="btnLoadMap_Click">Load Map</Button>
 					</StackPanel>
 				</Grid>
 				

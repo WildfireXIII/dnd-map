@@ -314,6 +314,16 @@ namespace DNDMapMaker
 			int squaresY = Int32.Parse(txtSquaresY.Text);
 			m_currentMap.setGridSquareCount(squaresX, squaresY);
 		}
+
+		private void btnSaveMap_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void btnLoadMap_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 		
 	}
 }

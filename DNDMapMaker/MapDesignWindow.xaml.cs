@@ -317,7 +317,9 @@ namespace DNDMapMaker
 
 		private void btnSaveMap_Click(object sender, RoutedEventArgs e)
 		{
+			string mapName = txtMapName.Text;
 
+			m_currentMap.saveMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 		}
 
 		private void btnLoadMap_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -139,6 +140,38 @@ namespace DNDMapMaker
 					e.scale();
 				}
 			}
+		}
+
+		public void saveMap(string fileName)
+		{
+			string savedData = "";
+
+			// first save map attributes
+			savedData += "x=" + m_squaresX.ToString();
+			savedData += "\ny=" + m_squaresY.ToString();
+			
+			// save all entities
+			foreach (Entity e in m_entities)
+			{
+				savedData += "\n|ENTITY|";
+				savedData += "\nres=" + e.getResName();
+				savedData += "\ngridx=" + e.getGridX();
+				savedData += "\ngridy=" + e.getGridY();
+				savedData += "\nscalex=" + e.getScaleX();
+				savedData += "\nscaley=" + e.getScaleY();
+				savedData += "\nz=" + e.getZIndex();
+				savedData += "\nangle=" + e.getAngle();
+			}
+
+			savedData += "\n|ENDDATA|";
+
+			StreamWriter file = new StreamWriter(fileName);
+			file.WriteLine(savedData);
+			file.Close();
+		}
+		public void openMap(string fileName)
+		{
+
 		}
 	}
 }

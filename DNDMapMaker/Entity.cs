@@ -47,6 +47,9 @@ namespace DNDMapMaker
 		}
 
 		// properties
+
+		public string getResName() { return m_resName; }
+
 		public double getCurrentX() { return m_currentX; }
 		public double getCurrentY() { return m_currentY; }
 

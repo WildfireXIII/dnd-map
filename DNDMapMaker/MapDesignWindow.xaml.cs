@@ -87,11 +87,12 @@ namespace DNDMapMaker
 		
 		// FUNCTIONS
 
-		private void addResource(string resName)
+		public void addResource(string resName)
 		{
 			Entity e = m_currentMap.addResource(resName);
 			lbEntities.Items.Add(e);
 		}
+
 
 		private void setPreviewPaneImage(string resName)
 		{
@@ -324,7 +325,8 @@ namespace DNDMapMaker
 
 		private void btnLoadMap_Click(object sender, RoutedEventArgs e)
 		{
-
+			string mapName = txtMapName.Text; // TODO: THIS NEEDS TO CHANGE OBVIOUSLY
+			m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 		}
 		
 	}

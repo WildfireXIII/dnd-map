@@ -171,7 +171,81 @@ namespace DNDMapMaker
 		}
 		public void openMap(string fileName)
 		{
+			bool readingEntity = false;
 
+			string line;
+
+			StreamReader file = new StreamReader(fileName);
+			//Entity curEntity = null; // don't need, because can just access last added entity
+			while ((line = file.ReadLine()) != null)
+			{
+				// check important command characters
+				if (line.Substring(0, 1) == "|")
+				{
+					if (line == "|ENTITY|") 
+					{
+						readingEntity = true;
+						//curEntity = null;
+						// if was already working on entity, add to list
+						//if (curEntity != null) { m_entities.Add(curEntity); }
+						continue;
+					}
+				}
+
+				// non-entity values
+				if (!readingEntity)
+				{
+					if (line.Substring(0, 1) == "x")
+					{
+						m_squaresX = Int32.Parse(getValue(line));
+					}
+					if (line.Substring(0, 1) == "y")
+					{
+						m_squaresY = Int32.Parse(getValue(line));
+					}
+				}
+				else //if reading entity
+				{
+					if (line.Length > 3 && line.Substring(0, 3) == "res")
+					{
+						Master.addResource(getValue(line));
+					}
+					else if (line.Length > 5 && line.Substring(0, 5) == "gridx")
+					{
+						double x = Double.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].move(x, m_entities[m_entities.Count - 1].getGridY());
+					}
+					else if (line.Length > 5 && line.Substring(0, 5) == "gridy")
+					{
+						double y = Double.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].move(m_entities[m_entities.Count - 1].getGridX(), y);
+					}
+					else if (line.Length > 6 && line.Substring(0, 6) == "scalex")
+					{
+						double x = Double.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].scaleVerbatim(x, m_entities[m_entities.Count - 1].getScaleY());
+					}
+					else if (line.Length > 6 && line.Substring(0, 6) == "scaley")
+					{
+						double y = Double.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].scaleVerbatim(m_entities[m_entities.Count - 1].getScaleX(), y);
+					}
+					else if (line.Substring(0, 1) == "z")
+					{
+						int z = Int32.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].setZIndex(z);
+					}
+					else if (line.Length > 5 && line.Substring(0, 5) == "angle")
+					{
+						int angle = Int32.Parse(getValue(line));
+						m_entities[m_entities.Count - 1].setAngle(angle);
+					}
+				}		
+			}
+
+			file.Close();
 		}
+
+		private string getValue(string line) { return line.Substring(line.IndexOf("=") + 1); }
 	}
 }

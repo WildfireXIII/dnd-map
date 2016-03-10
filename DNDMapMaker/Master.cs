@@ -32,6 +32,13 @@ namespace DNDMapMaker
 		// just for properties window, that's ALL it should be used for
 		public static void setMapSelectedEntity(Entity e) { mapWin.setSelectedEntity(e); }
 
+		// attempts on map design first, but if not up, use main window instead
+		public static void addResource(string resName)
+		{
+			if (mapWin != null) { mapWin.addResource(resName); }
+			// else { win.addResource(resName); } // DON'T KNOW IF THIS IS NECESSARY
+			// (will win ever even need add resource?
+		}
 
 		// functions
 		public static void assignMainWin(MainWindow win) { Master.win = win; }

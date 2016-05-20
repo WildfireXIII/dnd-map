@@ -15,11 +15,11 @@
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="150" />
+				<RowDefinition Height="200" />
 			</Grid.RowDefinitions>
 
 			<!-- world -->
-			<Canvas Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel"></Canvas>
+			<Canvas Background="White" Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel"></Canvas>
 
 			<!-- bottom panel -->
 			<Grid Grid.Row="1" Background="PaleTurquoise">
@@ -45,7 +45,9 @@
 						</StackPanel>
 						<Button Name="btnSaveMap" Click="btnSaveMap_Click">Save Map</Button>
 						<ScrollViewer>
-							
+							<ListBox Height="95" Name="lbAvailableMaps" SelectionChanged="lbAvailableMaps_SelectionChanged">
+								
+							</ListBox>
 						</ScrollViewer>
 						<Button Name="btnLoadMap" Click="btnLoadMap_Click">Load Map</Button>
 					</StackPanel>

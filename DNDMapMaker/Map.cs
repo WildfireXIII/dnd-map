@@ -198,10 +198,12 @@ namespace DNDMapMaker
 					if (line.Substring(0, 1) == "x")
 					{
 						m_squaresX = Int32.Parse(getValue(line));
+						setGridSquareCount(m_squaresX, m_squaresY);
 					}
 					if (line.Substring(0, 1) == "y")
 					{
 						m_squaresY = Int32.Parse(getValue(line));
+						setGridSquareCount(m_squaresX, m_squaresY);
 					}
 				}
 				else //if reading entity
@@ -247,5 +249,12 @@ namespace DNDMapMaker
 		}
 
 		private string getValue(string line) { return line.Substring(line.IndexOf("=") + 1); }
+
+		public static Map LoadMap(string mapName)
+		{
+			Map map = new Map();
+			map.openMap(mapName);
+			return map; 
+		}
 	}
 }

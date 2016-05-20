@@ -26,6 +26,8 @@ namespace DNDMapMaker
 		private bool m_isDraggingEntity = false;
 		private Entity m_draggingEntity = null;
 
+		private double m_initialScaleX = 0.0;
+		private double m_initialScaleY = 0.0;
 
 		private double m_draggingOffsetX = 0;
 		private double m_draggingOffsetY = 0;
@@ -61,8 +63,11 @@ namespace DNDMapMaker
 
 			fillResourceList();
 			fillMapProperties();
+			fillMapList();
 
 			cnvsWorld.RenderTransform = m_scale;
+			m_initialScaleX = m_scale.ScaleX;
+			m_initialScaleY = m_scale.ScaleY;
 
 			disableProperties();
 
@@ -130,6 +135,22 @@ namespace DNDMapMaker
 			txtAngle.Text = m_selectedEntity.getAngle().ToString();
 		}
 
+		private void fillMapList()
+		{
+			lbAvailableMaps.Items.Clear();
+			List<string> maps = Directory.GetFiles("C:\\dwl\\tmp\\DNDRES\\maps", "*.map").Select(path => System.IO.Path.GetFileName(path)).ToList();
+			foreach (string map in maps)
+			{
+				string curMap = map;
+				// remove the .map extension
+				if (!map.EndsWith(".map")) { continue; }
+
+				curMap = map.Substring(0, map.IndexOf(".map"));
+
+				lbAvailableMaps.Items.Add(curMap);
+			}
+		}
+		
 		private void enableProperties()
 		{
 			for (int i = 0; i < pnlProperties.Children.Count; i++)
@@ -242,6 +263,12 @@ namespace DNDMapMaker
 			Entity sel = (Entity)lbEntities.SelectedItem;
 			m_currentMap.setSelectedEntity(sel);
 		}
+		
+		private void lbAvailableMaps_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			string sel = lbAvailableMaps.SelectedItem.ToString();
+			txtMapName.Text = sel;
+		}
 
 		private void btnSetScale_Click(object sender, RoutedEventArgs e)
 		{
@@ -321,13 +348,23 @@ namespace DNDMapMaker
 			string mapName = txtMapName.Text;
 
 			m_currentMap.saveMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+			fillMapList();
 		}
 
 		private void btnLoadMap_Click(object sender, RoutedEventArgs e)
 		{
+			lbEntities.Items.Clear();
+			cnvsWorld.Children.Clear();
+			m_scale.ScaleX = m_initialScaleX;
+			m_scale.ScaleY = m_initialScaleY;
+			
 			string mapName = txtMapName.Text; // TODO: THIS NEEDS TO CHANGE OBVIOUSLY
+			//m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+			m_currentMap = new Map();
+			m_currentMap.setGridSize(15);
+			m_currentMap.setGridPos(0, 0);
 			m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+			//m_currentMap = Map.LoadMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 		}
-		
 	}
 }

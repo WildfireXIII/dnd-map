@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace DNDMapMaker
 {
@@ -19,6 +20,8 @@ namespace DNDMapMaker
 		private int m_lastGridSize = 40;
 		private int m_gridSize = 40; // one side
 
+		private string m_color = "Black";
+		
 		private List<GridSpace> m_grid = new List<GridSpace>();
 		private List<Entity> m_entities = new List<Entity>();
 
@@ -89,6 +92,21 @@ namespace DNDMapMaker
 			createGrid();
 		}
 
+		public void setColor(string color)
+		{
+			m_color = color;
+			Color actualColor = Colors.Red;
+			if (m_color.ToLower() == "black") { actualColor = Colors.Black; }
+			if (m_color.ToLower() == "white") { actualColor = Colors.White; }
+			
+			// set color on each grid space
+			foreach (GridSpace gs in m_grid)
+			{
+				gs.setColor(actualColor);
+			}
+		}
+		public string getColor() { return m_color; }
+
 		// functions
 
 		// returns created entity so can be added to listbox
@@ -149,6 +167,7 @@ namespace DNDMapMaker
 			// first save map attributes
 			savedData += "x=" + m_squaresX.ToString();
 			savedData += "\ny=" + m_squaresY.ToString();
+			savedData += "\ncolor=" + m_color;
 			
 			// save all entities
 			foreach (Entity e in m_entities)
@@ -200,10 +219,15 @@ namespace DNDMapMaker
 						m_squaresX = Int32.Parse(getValue(line));
 						setGridSquareCount(m_squaresX, m_squaresY);
 					}
-					if (line.Substring(0, 1) == "y")
+					else if (line.Substring(0, 1) == "y")
 					{
 						m_squaresY = Int32.Parse(getValue(line));
 						setGridSquareCount(m_squaresX, m_squaresY);
+					}
+					else if (line.StartsWith("color"))
+					{
+						m_color = getValue(line);
+						setColor(m_color);	
 					}
 				}
 				else //if reading entity

@@ -26,8 +26,10 @@ namespace DNDMapMaker
 			// get map window
 			MapDesignWindow mapWin = new MapDesignWindow();
 			mapWin.ShowDialog();
+			
 
 			log("Log initialized!");
+			this.Close();
 		}
 
 		// FUNCTIONS

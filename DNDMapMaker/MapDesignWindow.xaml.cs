@@ -96,6 +96,7 @@ namespace DNDMapMaker
 		{
 			Entity e = m_currentMap.addResource(resName);
 			lbEntities.Items.Add(e);
+			e.move(200, 50); // make it not in the corner of the window!
 		}
 
 
@@ -266,6 +267,7 @@ namespace DNDMapMaker
 		
 		private void lbAvailableMaps_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			if (lbAvailableMaps.SelectedItem == null) { return; } // TODO: better fix??
 			string sel = lbAvailableMaps.SelectedItem.ToString();
 			txtMapName.Text = sel;
 		}
@@ -342,6 +344,11 @@ namespace DNDMapMaker
 			int squaresY = Int32.Parse(txtSquaresY.Text);
 			m_currentMap.setGridSquareCount(squaresX, squaresY);
 		}
+		private void btnSetGridColor_Click(object sender, RoutedEventArgs e)
+		{
+			string gridColor = txtGridColor.Text;
+			m_currentMap.setColor(gridColor);
+		}
 
 		private void btnSaveMap_Click(object sender, RoutedEventArgs e)
 		{
@@ -365,6 +372,20 @@ namespace DNDMapMaker
 			m_currentMap.setGridPos(0, 0);
 			m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 			//m_currentMap = Map.LoadMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+
+			m_currentMap.setGridPos(300, 50);
+		}
+
+		// play map button! (too lazy to rename....wow)
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			Panel.SetZIndex(MapPlayGrid, 11);
+			MapPlayGrid.IsEnabled = true;
+			MapDesignGrid.Visibility = Visibility.Visible;
+
+			Panel.SetZIndex(MapDesignGrid, 9);
+			MapDesignGrid.IsEnabled = false;
+			MapDesignGrid.Visibility = Visibility.Hidden;
 		}
 	}
 }

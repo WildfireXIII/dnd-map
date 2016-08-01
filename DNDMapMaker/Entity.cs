@@ -195,6 +195,7 @@ namespace DNDMapMaker
 
 		private void body_MouseDown(object sender, MouseButtonEventArgs e)
 		{
+			if (Master.Mode == "play") { return; }
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 				m_parent.setSelectedEntity(this);

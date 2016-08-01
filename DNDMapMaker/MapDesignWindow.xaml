@@ -7,12 +7,43 @@
 		<Canvas Panel.ZIndex="10" Background="White" Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel"></Canvas>
 
 		<!-- MAP PLAY -->
-		<Grid Name="MapPlayGrid" Panel.ZIndex="9">
+		<Grid Name="MapPlayGrid" Panel.ZIndex="9" Opacity=".9" Visibility="Hidden"> <!-- zindex = 9 -->
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="200" />
+			</Grid.ColumnDefinitions>
+
+			<Grid Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+				</Grid.RowDefinitions>
+				
+				<!-- Icon library -->
+				<ListBox Grid.Row="0" Name="lbIcons" />
+
+				<!-- Icon sizing -->
+				<StackPanel Orientation="Horizontal" Grid.Row="1" Background="White" Width="200">
+					<Label Padding="2">Icon Size - </Label>
+					<Label Padding="2">X:</Label>
+					<TextBox Padding="2" Name="txtIconX" Width="18" Text="1" />
+					<Label Padding="2">Y:</Label>
+					<TextBox Padding="2" Name="txtIconY" Width="18" Text="1"/>
+				</StackPanel>
+
+				<!-- Controls -->
+				<StackPanel Grid.Row="2">
+					<Button Name="btnMapDesign" Content="Map Design" Click="btnMapDesign_Click" Height="40"/>
+				</StackPanel>
+			</Grid>
+
+			
+
 		</Grid>
 		
 		<!-- MAP DESIGN -->
-		<Grid Name="MapDesignGrid" Panel.ZIndex="11" Opacity=".9">
-
+		<Grid Name="MapDesignGrid" Panel.ZIndex="11" Opacity=".9" Visibility="Visible"> <!-- TODO: take out hidden visibility obviously -->
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="250" />
 				<ColumnDefinition Width="*" />

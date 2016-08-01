@@ -12,17 +12,22 @@ namespace DNDMapMaker
 		// "constants"
 		public static bool DISPLAY_DEBUG = false;
 		public static string RES_FOLDER = "C:\\dwl\\tmp\\DNDRES\\lib";
-		public static string MAP_FOLDER = "C:\\dwl\\tmp\\DNDRES\\map";
+		public static string MAP_FOLDER = "C:\\dwl\\tmp\\DNDRES\\maps";
+		public static string ICON_FOLDER = "C:\\dwl\\tmp\\DNDRES\\icons";
 
 		// variables
 		private static MainWindow win;
 		private static MapDesignWindow mapWin;
 
+		private static string mode = "design";
+		
 		public static Canvas activeCanvas;
 		//public static bool isMapActive; // true if mapDesignWindow open, false if not
 
 		// properties
 		//public static Canvas getMapCanvas() { return mapWin.getCanvas(); }
+
+		public static string Mode { get { return mode; } set { mode = value; } }
 		
 		public static void setDraggingEntity(bool isDragging, Entity draggingEntity) { mapWin.setDraggingEntity(isDragging, draggingEntity); }
 		public static void setMapOffsetX(double off) { mapWin.setMapOffsetX(off); }

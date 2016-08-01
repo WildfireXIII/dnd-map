@@ -370,7 +370,8 @@ namespace DNDMapMaker
 			m_currentMap = new Map();
 			m_currentMap.setGridSize(15);
 			m_currentMap.setGridPos(0, 0);
-			m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+			//m_currentMap.openMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
+			m_currentMap.openMap(Master.MAP_FOLDER + "\\" + mapName + ".map");
 			//m_currentMap = Map.LoadMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 
 			m_currentMap.setGridPos(300, 50);
@@ -381,11 +382,28 @@ namespace DNDMapMaker
 		{
 			Panel.SetZIndex(MapPlayGrid, 11);
 			MapPlayGrid.IsEnabled = true;
-			MapDesignGrid.Visibility = Visibility.Visible;
+			MapPlayGrid.Visibility = Visibility.Visible;
 
 			Panel.SetZIndex(MapDesignGrid, 9);
 			MapDesignGrid.IsEnabled = false;
 			MapDesignGrid.Visibility = Visibility.Hidden;
+			this.Title = "Play Map!";
+			Master.Mode = "play";
+			m_currentMap.deselectAllEntities();
+		}
+
+		// go back to map design
+		private void btnMapDesign_Click(object sender, RoutedEventArgs e)
+		{
+			Panel.SetZIndex(MapPlayGrid, 9);
+			MapPlayGrid.IsEnabled = false;
+			MapPlayGrid.Visibility = Visibility.Hidden;
+
+			Panel.SetZIndex(MapDesignGrid, 11);
+			MapDesignGrid.IsEnabled = true;
+			MapDesignGrid.Visibility = Visibility.Visible;
+			this.Title = "Map Design";
+			Master.Mode = "design";
 		}
 	}
 }

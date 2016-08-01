@@ -375,6 +375,11 @@ namespace DNDMapMaker
 			//m_currentMap = Map.LoadMap("C:\\dwl\\tmp\\DNDRES\\maps\\" + mapName + ".map");
 
 			m_currentMap.setGridPos(300, 50);
+
+			// display map properties in GUI 
+			txtSquaresX.Text = m_currentMap.getGridSquaresX().ToString();
+			txtSquaresY.Text = m_currentMap.getGridSquaresY().ToString();
+			txtGridColor.Text = m_currentMap.getColor();
 		}
 
 		// play map button! (too lazy to rename....wow)

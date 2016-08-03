@@ -18,10 +18,12 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="auto" />
 					<RowDefinition Height="auto" />
+					<RowDefinition Height="140" />
+					<RowDefinition Height="auto" />
 				</Grid.RowDefinitions>
 				
 				<!-- Icon library -->
-				<ListBox Grid.Row="0" Name="lbIcons" />
+				<ListBox Grid.Row="0" Name="lbIcons" SelectionChanged="lbIcons_SelectionChanged" />
 
 				<!-- Icon sizing -->
 				<StackPanel Orientation="Horizontal" Grid.Row="1" Background="White" Width="200">
@@ -32,8 +34,18 @@
 					<TextBox Padding="2" Name="txtIconY" Width="18" Text="1"/>
 				</StackPanel>
 
-				<!-- Controls -->
 				<StackPanel Grid.Row="2">
+					<Button Name="btnAddIcon" Content="Add Icon" Click="btnAddIcon_Click" />
+				</StackPanel>
+				
+				<!-- Icon add/Icon preview -->
+				<Grid Grid.Row="3" Background="Silver">
+					<Rectangle Name="rIconPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
+					<Label HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>
+				</Grid>
+				
+				<!-- Controls -->
+				<StackPanel Grid.Row="4">
 					<Button Name="btnMapDesign" Content="Map Design" Click="btnMapDesign_Click" Height="40"/>
 				</StackPanel>
 			</Grid>

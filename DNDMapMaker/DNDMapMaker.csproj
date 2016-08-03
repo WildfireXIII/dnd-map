@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Entity.cs" />
     <Compile Include="GridSpace.cs" />
+    <Compile Include="Icon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -61,6 +61,7 @@ namespace DNDMapMaker
 			m.setGridSize(15);
 			m.setGridPos(20, 20);
 
+			fillIconList();
 			fillResourceList();
 			fillMapProperties();
 			fillMapList();
@@ -98,6 +99,11 @@ namespace DNDMapMaker
 			lbEntities.Items.Add(e);
 			e.move(200, 50); // make it not in the corner of the window!
 		}
+		public void addIcon(string sIconName, int iWidth, int iHeight)
+		{
+			Icon pIcon = m_currentMap.addIcon(sIconName, iWidth, iHeight);
+			//lb
+		}
 
 
 		private void setPreviewPaneImage(string resName)
@@ -106,10 +112,26 @@ namespace DNDMapMaker
 			paneImage.Stretch = Stretch.Uniform;
 			rPreviewPane.Fill = paneImage;
 		}
+		private void setIconPreviewPaneImage(string icoName)
+		{
+			ImageBrush paneImage = new ImageBrush(new BitmapImage(new Uri(Master.ICON_FOLDER + "\\" + icoName)));
+			paneImage.Stretch = Stretch.Uniform;
+			rIconPreviewPane.Fill = paneImage;
+		}
+
+		private void fillIconList()
+		{
+			List<string> pFileList = Directory.EnumerateFiles(Master.ICON_FOLDER).ToList();
+			foreach (string sFileName in pFileList)
+			{
+				ListBoxItem item = new ListBoxItem();
+				item.Content = sFileName.Substring(sFileName.LastIndexOf('\\') + 1);
+				lbIcons.Items.Add(item);
+			}
+		}
 
 		private void fillResourceList()
 		{
-			//string[] fileList = Directory.GetFiles(Master.RES_FOLDER);
 			List<string> fileList = Directory.EnumerateFiles(Master.RES_FOLDER).ToList();
 			foreach (string fileName in fileList)
 			{
@@ -251,7 +273,16 @@ namespace DNDMapMaker
 			setPreviewPaneImage(selected.Content.ToString());
 		}
 
-	
+		private void lbIcons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			ListBoxItem selected = (ListBoxItem)lbIcons.SelectedItem;
+			setIconPreviewPaneImage(selected.Content.ToString());
+		}
+		private void btnAddIcon_Click(object sender, RoutedEventArgs e)
+		{
+			ListBoxItem selected = (ListBoxItem)lbIcons.SelectedItem;
+			addIcon(selected.Content.ToString(), Convert.ToInt32(txtIconX.Text), Convert.ToInt32(txtIconY.Text));
+		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{

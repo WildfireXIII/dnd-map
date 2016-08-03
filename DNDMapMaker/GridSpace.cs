@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace DNDMapMaker
 {
-	class GridSpace
+	public class GridSpace
 	{
 		// member variables
 		private Rectangle m_body = new Rectangle();
@@ -50,6 +50,9 @@ namespace DNDMapMaker
 		public double getCurrentY() { return m_currentY; }
 
 		public void setColor(Color c) { m_body.Stroke = new SolidColorBrush(c);  }
+
+		public int XSpace { get { return m_xIndex; } set { m_xIndex = value; } }
+		public int YSpace { get { return m_yIndex; } set { m_yIndex = value; } }
 
 		// functions
 

@@ -24,6 +24,7 @@ namespace DNDMapMaker
 		
 		private List<GridSpace> m_grid = new List<GridSpace>();
 		private List<Entity> m_entities = new List<Entity>();
+		private List<Icon> m_icons = new List<Icon>();
 
 		private Entity m_selectedEntity;
 
@@ -72,16 +73,26 @@ namespace DNDMapMaker
 			//Master.mapLog("Setting map pos to (" + x + "," + y + ")"); // DEBUG
 			m_mapOriginX = x;
 			m_mapOriginY = y;
+
+			// move all gridspaces 
 			foreach (GridSpace g in m_grid)
 			{
 				g.updatePosition();
 			}
+
+			// move all entities
 			foreach (Entity e in m_entities)
 			{
 				if (e.isLocked())
 				{
 					e.move(x + e.getGridX(), y + e.getGridY());
 				}
+			}
+
+			// move all icons
+			foreach (Icon pIcon in m_icons)
+			{
+				pIcon.updatePosFromSpace();
 			}
 		}
 		public double getOriginX() { return m_mapOriginX; }
@@ -111,6 +122,15 @@ namespace DNDMapMaker
 
 		// functions
 
+		public GridSpace getGridSpace(int iX, int iY)
+		{
+			foreach (GridSpace pGridSpace in m_grid)
+			{
+				if (pGridSpace.XSpace == iX && pGridSpace.YSpace == iY) { return pGridSpace; }
+			}
+			return null;
+		}
+
 		// returns created entity so can be added to listbox
 		public Entity addResource(string resName)
 		{
@@ -118,6 +138,13 @@ namespace DNDMapMaker
 			e.setLocked(true);
 			m_entities.Add(e);
 			return e;
+		}
+
+		public Icon addIcon(string sIconName, int iWidth, int iHeight)
+		{
+			Icon pIcon = new Icon(this, sIconName, iWidth, iHeight);
+			m_icons.Add(pIcon);
+			return pIcon;
 		}
 
 		private void configureGridSizing()

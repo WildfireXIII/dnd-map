@@ -30,6 +30,7 @@ namespace DNDMapMaker
 		public static string Mode { get { return mode; } set { mode = value; } }
 		
 		public static void setDraggingEntity(bool isDragging, Entity draggingEntity) { mapWin.setDraggingEntity(isDragging, draggingEntity); }
+		public static void setDraggingIcon(bool isDragging, Icon draggingIcon) { mapWin.setDraggingIcon(isDragging, draggingIcon); }
 		public static void setMapOffsetX(double off) { mapWin.setMapOffsetX(off); }
 		public static void setMapOffsetY(double off) { mapWin.setMapOffsetY(off); }
 		//public static int getMapOffsetX() { return mapWin.getMapOffsetX(); }
@@ -37,6 +38,7 @@ namespace DNDMapMaker
 
 		// just for properties window, that's ALL it should be used for
 		public static void setMapSelectedEntity(Entity e) { mapWin.setSelectedEntity(e); }
+		//public static void setMapSelectedIcon(Icon pIcon) { mapWin.setS(e); }
 
 		// attempts on map design first, but if not up, use main window instead
 		public static void addResource(string resName)

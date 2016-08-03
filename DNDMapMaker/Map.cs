@@ -27,6 +27,7 @@ namespace DNDMapMaker
 		private List<Icon> m_icons = new List<Icon>();
 
 		private Entity m_selectedEntity;
+		private Icon m_selectedIcon;
 
 		// upper left corner of map in comparison to canvas upper left
 		private double m_mapOriginX = 0;
@@ -52,6 +53,12 @@ namespace DNDMapMaker
 			m_selectedEntity.setSelected(true);
 			Master.setMapSelectedEntity(m_selectedEntity);
 		}
+		public Icon getSelectedIcon() { return m_selectedIcon; }
+		/*public void setSelectedIcon(Icon pIcon)
+		{
+			//if (m_selectedIcon != null) { m_selectedIcon.}
+			m_selectedIcon = pIcon;
+		}*/
 
 		public void deselectAllEntities() { if (m_selectedEntity != null) { m_selectedEntity.setSelected(false); } }
 
@@ -121,6 +128,28 @@ namespace DNDMapMaker
 		public string getColor() { return m_color; }
 
 		// functions
+
+		public GridSpace getClosestGridSpace(double dGoalX, double dGoalY)
+		{
+			GridSpace pClosest = null;
+			double dClosestX = 1000;
+			double dClosestY = 1000;
+			
+			foreach (GridSpace pGridSpace in m_grid)
+			{
+				double difX = Math.Abs(dGoalX - pGridSpace.getCurrentX());
+				double difY = Math.Abs(dGoalY - pGridSpace.getCurrentY());
+
+				if (difX <= dClosestX && difY <= dClosestY)
+				{
+					pClosest = pGridSpace;
+					dClosestX = difX;
+					dClosestY = difY;
+				}
+			}
+
+			return pClosest;
+		}
 
 		public GridSpace getGridSpace(int iX, int iY)
 		{

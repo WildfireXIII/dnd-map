@@ -24,7 +24,9 @@ namespace DNDMapMaker
 		// states
 		private bool m_isDraggingMap = false;
 		private bool m_isDraggingEntity = false;
+		private bool m_isDraggingIcon = false;
 		private Entity m_draggingEntity = null;
+		private Icon m_draggingIcon = null;
 
 		private double m_initialScaleX = 0.0;
 		private double m_initialScaleY = 0.0;
@@ -82,6 +84,11 @@ namespace DNDMapMaker
 		{
 			m_isDraggingEntity = true;
 			m_draggingEntity = draggingEntity;
+		}
+		public void setDraggingIcon(bool isDragging, Icon draggingIcon)
+		{
+			m_isDraggingIcon = true;
+			m_draggingIcon = draggingIcon;
 		}
 
 		public void setMapOffsetX(double off) { m_draggingOffsetX = off; }
@@ -231,6 +238,14 @@ namespace DNDMapMaker
 
 				m_draggingEntity.move(x, y);
 			}
+			else if (m_isDraggingIcon)
+			{
+				Point p = e.GetPosition(cnvsWorld);
+				double x = p.X - m_draggingOffsetX;
+				double y = p.Y - m_draggingOffsetY;
+
+				m_draggingIcon.move(x, y);
+			} 
 		}
 
 		private void cnvsWorld_MouseUp(object sender, MouseButtonEventArgs e)
@@ -245,10 +260,23 @@ namespace DNDMapMaker
 			{
 				if (m_draggingEntity.isSelected()) { m_draggingEntity.setHighlight(Colors.Green); }
 				else { m_draggingEntity.setHighlight(Colors.Transparent); }
-				
+
 				m_isDraggingEntity = false;
 				m_draggingOffsetX = 0;
 				m_draggingOffsetY = 0;
+			}
+			// TODO: this is where you add gridspace checking for icon
+			else if (m_isDraggingIcon)
+			{
+				m_isDraggingIcon = false;
+				m_draggingOffsetX = 0;
+				m_draggingOffsetY = 0;
+
+				double dGoalX = m_draggingIcon.CurrentX;
+				double dGoalY = m_draggingIcon.CurrentY;
+
+				m_draggingIcon.GridSpace = m_currentMap.getClosestGridSpace(dGoalX, dGoalY);
+				m_draggingIcon.updatePosFromSpace();
 			}
 		}
 

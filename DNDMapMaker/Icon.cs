@@ -43,6 +43,13 @@ namespace DNDMapMaker
 			loadImageBrush(sResName);
 			addToCanvas();
 		}
+
+		// PROPERTIES
+		public double CurrentX { get { return m_dCurrentX; } set { m_dCurrentX = value; } }
+		public double CurrentY { get { return m_dCurrentY; } set { m_dCurrentY = value; } }
+		public GridSpace GridSpace { get { return m_pGridSpace; } set { m_pGridSpace = value; } }
+		
+		// FUNCTIONS
 		
 		private void addToCanvas() { Master.activeCanvas.Children.Add(m_pBody);	}
 		
@@ -72,13 +79,20 @@ namespace DNDMapMaker
 			updatePosFromSpace();
 		}
 
-
-		// FUNCTIONS
-
 		public void updatePosFromSpace()
 		{
 			m_dCurrentX = m_pGridSpace.getCurrentX();
 			m_dCurrentY = m_pGridSpace.getCurrentY();
+
+			Canvas.SetLeft(m_pBody, m_dCurrentX);
+			Canvas.SetTop(m_pBody, m_dCurrentY);
+		}
+
+		// NOTE: should only be used for dragging. Any other time, the icon should be squarely within its grid space, not offset
+		public void move(double dX, double dY)
+		{
+			m_dCurrentX = dX;
+			m_dCurrentY = dY;
 
 			Canvas.SetLeft(m_pBody, m_dCurrentX);
 			Canvas.SetTop(m_pBody, m_dCurrentY);
@@ -88,10 +102,10 @@ namespace DNDMapMaker
 
 		private void body_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (Master.Mode == "play") { return; }
-			/*if (e.LeftButton == MouseButtonState.Pressed)
+			if (Master.Mode == "design") { return; }
+			if (e.LeftButton == MouseButtonState.Pressed)
 			{
-				m_pParent.setSelectedEntity(this);
+				//m_pParent.setSelectedIcon(this);
 
 				// highlight
 				//m_body.Stroke = Brushes.Blue;
@@ -101,11 +115,11 @@ namespace DNDMapMaker
 				int x = (int)p.X;
 				int y = (int)p.Y;
 
-				Master.setMapOffsetX(x - m_currentX);
-				Master.setMapOffsetY(y - m_currentY);
+				Master.setMapOffsetX(x - m_dCurrentX);
+				Master.setMapOffsetY(y - m_dCurrentY);
 
-				Master.setDraggingEntity(true, this);
-			}*/
+				Master.setDraggingIcon(true, this);
+			}
 		}
 	}
 }

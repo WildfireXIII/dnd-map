@@ -26,8 +26,8 @@ namespace DNDMapMaker
 		private List<Entity> m_entities = new List<Entity>();
 		private List<Icon> m_icons = new List<Icon>();
 
-		private Entity m_selectedEntity;
-		private Icon m_selectedIcon;
+		private Entity m_selectedEntity = null;
+		private Icon m_selectedIcon = null;
 
 		// upper left corner of map in comparison to canvas upper left
 		private double m_mapOriginX = 0;
@@ -42,6 +42,8 @@ namespace DNDMapMaker
 		}
 
 		// properties
+		public List<Icon> Icons { get { return m_icons; } set { m_icons = value; } }
+		
 		public int getGridSquaresX() { return m_squaresX; }
 		public int getGridSquaresY() { return m_squaresY; }
 
@@ -54,11 +56,13 @@ namespace DNDMapMaker
 			Master.setMapSelectedEntity(m_selectedEntity);
 		}
 		public Icon getSelectedIcon() { return m_selectedIcon; }
-		/*public void setSelectedIcon(Icon pIcon)
+		public void setSelectedIcon(Icon pIcon)
 		{
-			//if (m_selectedIcon != null) { m_selectedIcon.}
+			if (m_selectedIcon != null) { m_selectedIcon.setSelected(false); }
 			m_selectedIcon = pIcon;
-		}*/
+			m_selectedIcon.setSelected(true);
+			Master.setMapSelectedIcon(m_selectedIcon);
+		}
 
 		public void deselectAllEntities() { if (m_selectedEntity != null) { m_selectedEntity.setSelected(false); } }
 
@@ -169,9 +173,9 @@ namespace DNDMapMaker
 			return e;
 		}
 
-		public Icon addIcon(string sIconName, int iWidth, int iHeight)
+		public Icon addIcon(string sIconName, int iWidth, int iHeight, string sName)
 		{
-			Icon pIcon = new Icon(this, sIconName, iWidth, iHeight);
+			Icon pIcon = new Icon(this, sIconName, iWidth, iHeight, sName);
 			m_icons.Add(pIcon);
 			return pIcon;
 		}

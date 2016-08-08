@@ -1,51 +1,75 @@
 ﻿<Window x:Class="DNDMapMaker.MapDesignWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Map Design" Height="700" Width="900">
+        Title="Map Design" Height="700" Width="900" KeyDown="window_KeyDown">
 	<Grid>
 		<!-- world -->
-		<Canvas Panel.ZIndex="10" Background="White" Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel"></Canvas>
+		<Canvas Panel.ZIndex="10" Background="White" Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel" >
+			<TextBox Height="0" Width="0">I'm literally only adding this because canvas doesn't get keyboard input without it...</TextBox>
+		</Canvas>
 
 		<!-- MAP PLAY -->
 		<Grid Name="MapPlayGrid" Panel.ZIndex="9" Opacity=".9" Visibility="Hidden"> <!-- zindex = 9 -->
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="170" />
 			</Grid.ColumnDefinitions>
 
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="auto" />
+
+
+					<RowDefinition Height="*" />
+					<RowDefinition Height="auto" />
 					<RowDefinition Height="auto" />
 					<RowDefinition Height="140" />
 					<RowDefinition Height="auto" />
 				</Grid.RowDefinitions>
+
+				<!-- Playing icons -->
+				<!--<ScrollViewer Grid.Row="0" Background="White" BorderBrush="Black" BorderThickness="1">
+					<StackPanel Name="pnlPlayingIcons">
+					</StackPanel>
+				</ScrollViewer>-->
+
+				<ListBox Grid.Row="0" Background="White" Name="lbPlayingIcons" SelectionChanged="lbPlayingIcons_SelectionChanged" >
+					
+				</ListBox>
+
+				<!-- Selected icon props -->
 				
 				<!-- Icon library -->
-				<ListBox Grid.Row="0" Name="lbIcons" SelectionChanged="lbIcons_SelectionChanged" />
+				<ListBox Grid.Row="2" Name="lbIcons" SelectionChanged="lbIcons_SelectionChanged" />
 
-				<!-- Icon sizing -->
-				<StackPanel Orientation="Horizontal" Grid.Row="1" Background="White" Width="200">
-					<Label Padding="2">Icon Size - </Label>
-					<Label Padding="2">X:</Label>
-					<TextBox Padding="2" Name="txtIconX" Width="18" Text="1" />
-					<Label Padding="2">Y:</Label>
-					<TextBox Padding="2" Name="txtIconY" Width="18" Text="1"/>
+				<!-- Icon add properties -->
+				<StackPanel Grid.Row="3" Background="White">
+					<StackPanel Orientation="Horizontal" Width="170">
+						<Label Padding="2">Icon Size -</Label>
+						<Label Padding="2">X:</Label>
+						<TextBox Padding="2" Name="txtIconX" Width="18" Text="1" />
+						<Label Padding="2">Y:</Label>
+						<TextBox Padding="2" Name="txtIconY" Width="18" Text="1"/>
+					</StackPanel>
+					<DockPanel LastChildFill="True">
+						<Label Padding="2" DockPanel.Dock="Left">Icon Name -</Label>
+						<TextBox Padding="2" Name="txtIconName" Text="Bob the Barbarian" HorizontalAlignment="Stretch"/>
+					</DockPanel>
 				</StackPanel>
 
-				<StackPanel Grid.Row="2">
+				<StackPanel Grid.Row="4">
 					<Button Name="btnAddIcon" Content="Add Icon" Click="btnAddIcon_Click" />
 				</StackPanel>
 				
-				<!-- Icon add/Icon preview -->
-				<Grid Grid.Row="3" Background="Silver">
+				<!-- Icon preview -->
+				<Grid Grid.Row="5" Background="Silver">
 					<Rectangle Name="rIconPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
 					<Label HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>
 				</Grid>
 				
 				<!-- Controls -->
-				<StackPanel Grid.Row="4">
+				<StackPanel Grid.Row="6">
 					<Button Name="btnMapDesign" Content="Map Design" Click="btnMapDesign_Click" Height="40"/>
 				</StackPanel>
 			</Grid>
@@ -195,10 +219,9 @@
 					<RowDefinition Height="200" />
 				</Grid.RowDefinitions>
 
-
-				<ListBox Grid.Row="0" Name="lbRes" SelectionChanged="lbRes_SelectionChanged"></ListBox>
-
-				<ListBox Grid.Row="1" Name="lbEntities" SelectionChanged="lbEntities_SelectionChanged"></ListBox>
+				<ListBox Grid.Row="0" Name="lbEntities" SelectionChanged="lbEntities_SelectionChanged"></ListBox>
+				
+				<ListBox Grid.Row="1" Name="lbRes" SelectionChanged="lbRes_SelectionChanged"></ListBox>
 
 				<Rectangle Grid.Row="2" Name="rPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
 				<Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>

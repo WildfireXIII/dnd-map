@@ -36,6 +36,7 @@ namespace DNDMapMaker
 
 		//private Entity m_hoverEntity = null;
 		private Entity m_selectedEntity = null; // ONLY USED FOR PROPERTY STUFF
+		private Icon m_selectedIcon = null;
 		
 		private Map m_currentMap;
 
@@ -74,6 +75,12 @@ namespace DNDMapMaker
 
 			disableProperties();
 
+			cnvsWorld.Focusable = true;
+
+			lbPlayingIcons.Focusable = false;
+			lbIcons.Focusable = false;
+
+
 			//mediaElement1.Source = new Uri("C:\\trol.mp3");
 			//mediaElement1.Play();
 		}
@@ -97,6 +104,17 @@ namespace DNDMapMaker
 		//public int getMapOffsetY() { return m_draggingOffsetY; }
 
 		public void setSelectedEntity(Entity e) { m_selectedEntity = e; fillPropList(); }
+
+		public void setSelectedIcon(Icon pSelectedIcon) 
+		{ 
+			m_selectedIcon = pSelectedIcon;
+
+			// select it in the playing icons listbox
+			foreach (StackPanel pPanel in lbPlayingIcons.Items)
+			{
+				if (((Label)pPanel.Children[1]).Content.ToString() == pSelectedIcon.Name) { lbPlayingIcons.SelectedItem = pPanel; }
+			}
+		} 
 		
 		// FUNCTIONS
 
@@ -106,12 +124,29 @@ namespace DNDMapMaker
 			lbEntities.Items.Add(e);
 			e.move(200, 50); // make it not in the corner of the window!
 		}
-		public void addIcon(string sIconName, int iWidth, int iHeight)
+		public void addIcon(string sIconName, int iWidth, int iHeight, string sName)
 		{
-			Icon pIcon = m_currentMap.addIcon(sIconName, iWidth, iHeight);
-			//lb
-		}
+			Icon pIcon = m_currentMap.addIcon(sIconName, iWidth, iHeight, sName);
 
+			// update the list of playing icons
+			//StackPanel pMainPanel = pnlPlayingIcons;
+			
+			StackPanel pIconStack = new StackPanel();
+			pIconStack.Orientation = Orientation.Horizontal;
+
+			Rectangle pImage = new Rectangle();
+			pImage.Fill = pIcon.Image;
+			pImage.Height = 20;
+			pImage.Width = 20;
+
+			Label lblIconName = new Label();
+			lblIconName.Content = pIcon.Name;
+
+			pIconStack.Children.Add(pImage);
+			pIconStack.Children.Add(lblIconName);
+			lbPlayingIcons.Items.Add(pIconStack);
+			//pMainPanel.Children.Add(pIconStack);
+		}
 
 		private void setPreviewPaneImage(string resName)
 		{
@@ -216,6 +251,7 @@ namespace DNDMapMaker
 				m_draggingOffsetY = y - m_currentMap.getOriginY();
 				log("Setting offsets to (" + x + "," + y + ")");
 			}
+			cnvsWorld.Focus();
 		}
 
 		private void cnvsWorld_MouseMove(object sender, MouseEventArgs e)
@@ -245,6 +281,7 @@ namespace DNDMapMaker
 				double y = p.Y - m_draggingOffsetY;
 
 				m_draggingIcon.move(x, y);
+				//m_draggingIcon.setSelected(false);
 			} 
 		}
 
@@ -294,6 +331,47 @@ namespace DNDMapMaker
 			}
 		}
 
+		// THIS IS ACTUALLY ASSIGNED TO WINDOW, because WPF has a weird thing that canvases don't get keyboard input...
+		private void window_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Up || e.Key == Key.Down && txtIconName.IsFocused == false)
+			{
+				if (Master.Mode == "play")
+				{
+					Icon pIcon = m_currentMap.getSelectedIcon();
+					if (pIcon == null) { return; }
+
+					int iCurrentX = pIcon.GridSpace.XSpace;
+					int iCurrentY = pIcon.GridSpace.YSpace;
+
+					if (e.Key == Key.Left)
+					{
+						if (iCurrentX == 0) { return; }
+						iCurrentX--;
+					}
+					else if (e.Key == Key.Right)
+					{
+						if (iCurrentX == m_currentMap.getGridSquaresX() - 1) { return; }
+						iCurrentX++;
+					}
+					else if (e.Key == Key.Up)
+					{
+						if (iCurrentY == 0) { return; }
+						iCurrentY--;
+					}
+					else if (e.Key == Key.Down)
+					{
+						if (iCurrentY == m_currentMap.getGridSquaresY() - 1) { return; }
+						iCurrentY++;
+					}
+
+					pIcon.GridSpace = m_currentMap.getGridSpace(iCurrentX, iCurrentY);
+					pIcon.updatePosFromSpace();
+					e.Handled = true;
+				}
+			}
+		}
+
 		private void lbRes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			ListBoxItem selected = (ListBoxItem)lbRes.SelectedItem;
@@ -309,7 +387,7 @@ namespace DNDMapMaker
 		private void btnAddIcon_Click(object sender, RoutedEventArgs e)
 		{
 			ListBoxItem selected = (ListBoxItem)lbIcons.SelectedItem;
-			addIcon(selected.Content.ToString(), Convert.ToInt32(txtIconX.Text), Convert.ToInt32(txtIconY.Text));
+			addIcon(selected.Content.ToString(), Convert.ToInt32(txtIconX.Text), Convert.ToInt32(txtIconY.Text), txtIconName.Text);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -468,6 +546,19 @@ namespace DNDMapMaker
 			MapDesignGrid.Visibility = Visibility.Visible;
 			this.Title = "Map Design";
 			Master.Mode = "design";
+		}
+
+		private void lbPlayingIcons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			string sTarget = ((Label)((StackPanel)lbPlayingIcons.SelectedItem).Children[1]).Content.ToString();
+			foreach (Icon pIcon in m_currentMap.Icons)
+			{
+				if (pIcon.Name == sTarget)
+				{
+
+					m_currentMap.setSelectedIcon(pIcon);
+				}
+			}
 		}
 	}
 }

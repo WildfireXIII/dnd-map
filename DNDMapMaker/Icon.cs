@@ -18,6 +18,7 @@ namespace DNDMapMaker
 		private Rectangle m_pBody = new Rectangle();
 		private ImageBrush m_pBGImage;
 		private string m_sResName;
+		private string m_sIconName; // character/monster name etc.
 
 		// width and height (in number of grid spaces it takes up)
 		private int m_iSpacesX = 0;
@@ -34,12 +35,13 @@ namespace DNDMapMaker
 
 		private GridSpace m_pGridSpace = null;
 
-		public Icon(Map pParent, string sResName, int iSpacesX, int iSpacesY)
+		public Icon(Map pParent, string sResName, int iSpacesX, int iSpacesY, string sIconName)
 		{
 			m_pParent = pParent;
 			m_sResName = sResName;
 			m_iSpacesX = iSpacesX;
 			m_iSpacesY = iSpacesY;
+			m_sIconName = sIconName;
 			loadImageBrush(sResName);
 			addToCanvas();
 		}
@@ -48,6 +50,8 @@ namespace DNDMapMaker
 		public double CurrentX { get { return m_dCurrentX; } set { m_dCurrentX = value; } }
 		public double CurrentY { get { return m_dCurrentY; } set { m_dCurrentY = value; } }
 		public GridSpace GridSpace { get { return m_pGridSpace; } set { m_pGridSpace = value; } }
+		public ImageBrush Image { get { return m_pBGImage; } set { m_pBGImage = value; } } 
+		public string Name { get { return m_sIconName; } set { m_sIconName = value; } }
 		
 		// FUNCTIONS
 		
@@ -61,8 +65,8 @@ namespace DNDMapMaker
 			m_pBody.Height = m_pParent.getGridSize() * m_iSpacesY;
 			m_pBody.Width = m_pParent.getGridSize() * m_iSpacesX;
 			
-			//m_pBody.StrokeThickness = 4;
-			//m_pBody.Stroke = Brushes.Transparent;
+			m_pBody.StrokeThickness = .5;
+			m_pBody.Stroke = Brushes.Transparent;
 
 			//m_pBody.LayoutTransform = m_rotate;
 			//m_rotate.Angle = 0;
@@ -77,6 +81,12 @@ namespace DNDMapMaker
 
 			m_pGridSpace = m_pParent.getGridSpace(0, 0);
 			updatePosFromSpace();
+		}
+
+		public void setSelected(bool bSelected)
+		{
+			if (!bSelected) { m_pBody.Stroke = Brushes.Transparent; }
+			else { m_pBody.Stroke = Brushes.Orange; }
 		}
 
 		public void updatePosFromSpace()
@@ -105,10 +115,10 @@ namespace DNDMapMaker
 			if (Master.Mode == "design") { return; }
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
-				//m_pParent.setSelectedIcon(this);
+				m_pParent.setSelectedIcon(this);
 
 				// highlight
-				//m_body.Stroke = Brushes.Blue;
+				m_pBody.Stroke = Brushes.Orange;
 
 				// get point for offsets
 				Point p = e.GetPosition(Master.activeCanvas);

@@ -38,7 +38,7 @@ namespace DNDMapMaker
 
 		// just for properties window, that's ALL it should be used for
 		public static void setMapSelectedEntity(Entity e) { mapWin.setSelectedEntity(e); }
-		//public static void setMapSelectedIcon(Icon pIcon) { mapWin.setS(e); }
+		public static void setMapSelectedIcon(Icon pIcon) { mapWin.setSelectedIcon(pIcon); }
 
 		// attempts on map design first, but if not up, use main window instead
 		public static void addResource(string resName)

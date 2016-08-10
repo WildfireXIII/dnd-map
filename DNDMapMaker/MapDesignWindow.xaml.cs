@@ -76,11 +76,7 @@ namespace DNDMapMaker
 			disableProperties();
 
 			cnvsWorld.Focusable = true;
-
-			lbPlayingIcons.Focusable = false;
-			lbIcons.Focusable = false;
-
-
+			
 			//mediaElement1.Source = new Uri("C:\\trol.mp3");
 			//mediaElement1.Play();
 		}
@@ -558,6 +554,36 @@ namespace DNDMapMaker
 
 					m_currentMap.setSelectedIcon(pIcon);
 				}
+			}
+		}
+
+		// this is the preview mouse down thing
+		private void txtIconName_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			txtIconName.SelectAll();
+			TextBox tb = (sender as TextBox);
+			if (!tb.IsKeyboardFocusWithin)
+			{
+				e.Handled = true;
+				tb.Focus();
+			}
+		}
+
+		private void txtIconName_GotFocus(object sender, RoutedEventArgs e)
+		{
+			txtIconName.SelectAll();
+		}
+
+		private void txtIconName_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			txtIconName.SelectAll();
+		}
+
+		private void lbPlayingIcons_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				cnvsWorld.Focus();
 			}
 		}
 	}

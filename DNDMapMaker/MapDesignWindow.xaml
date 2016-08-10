@@ -3,8 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Map Design" Height="700" Width="900" KeyDown="window_KeyDown">
 	<Grid>
+		<!--<Style x:Key="NoFocusLines" TargetType="{x:Type Canvas}">
+		</Style>-->
+		
 		<!-- world -->
 		<Canvas Panel.ZIndex="10" Background="White" Name="cnvsWorld" MouseDown="cnvsWorld_MouseDown" MouseMove="cnvsWorld_MouseMove" MouseUp="cnvsWorld_MouseUp" MouseWheel="cnvsWorld_MouseWheel" >
+			<Canvas.Style>
+				<Style TargetType="{x:Type Canvas}">
+					<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+				</Style>
+			</Canvas.Style>
 			<TextBox Height="0" Width="0">I'm literally only adding this because canvas doesn't get keyboard input without it...</TextBox>
 		</Canvas>
 
@@ -34,7 +42,7 @@
 					</StackPanel>
 				</ScrollViewer>-->
 
-				<ListBox Grid.Row="0" Background="White" Name="lbPlayingIcons" SelectionChanged="lbPlayingIcons_SelectionChanged" >
+				<ListBox Grid.Row="0" Background="White" Name="lbPlayingIcons" SelectionChanged="lbPlayingIcons_SelectionChanged" KeyDown="lbPlayingIcons_KeyDown" >
 					
 				</ListBox>
 
@@ -54,7 +62,7 @@
 					</StackPanel>
 					<DockPanel LastChildFill="True">
 						<Label Padding="2" DockPanel.Dock="Left">Icon Name -</Label>
-						<TextBox Padding="2" Name="txtIconName" Text="Bob the Barbarian" HorizontalAlignment="Stretch"/>
+						<TextBox Padding="2" Name="txtIconName" Text="Bob the Barbarian" HorizontalAlignment="Stretch" MouseDown="txtIconName_MouseDown" GotFocus="txtIconName_GotFocus" GotKeyboardFocus="txtIconName_GotKeyboardFocus" PreviewMouseLeftButtonDown="txtIconName_MouseDown"/>
 					</DockPanel>
 				</StackPanel>
 
@@ -113,7 +121,6 @@
 						
 						<Label Grid.Row="0">Map Properties</Label>
 						<StackPanel Grid.Row="1">
-							<Button Content="Add Selected Resource" Click="Button_Click"></Button>
 							<StackPanel Orientation="Horizontal">
 								<Label Padding="2">Grid Size -</Label>
 								<Label Padding="2">X:</Label>
@@ -216,6 +223,7 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
+					<RowDefinition Height="auto" />
 					<RowDefinition Height="200" />
 				</Grid.RowDefinitions>
 
@@ -223,8 +231,12 @@
 				
 				<ListBox Grid.Row="1" Name="lbRes" SelectionChanged="lbRes_SelectionChanged"></ListBox>
 
-				<Rectangle Grid.Row="2" Name="rPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
-				<Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>
+				<StackPanel Grid.Row="2">
+					<Button Content="Add Selected Resource" Click="Button_Click"></Button>
+				</StackPanel>
+
+				<Rectangle Grid.Row="3" Name="rPreviewPane" Panel.ZIndex="2" Stroke="Gray" StrokeThickness="1"></Rectangle>
+				<Label Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">Preview Pane</Label>
 			</Grid>
 
 			<!-- DEBUG LOG -->

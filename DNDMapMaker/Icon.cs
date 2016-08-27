@@ -19,6 +19,7 @@ namespace DNDMapMaker
 		private ImageBrush m_pBGImage;
 		private string m_sResName;
 		private string m_sIconName; // character/monster name etc.
+		private bool m_bDead = false;
 
 		// width and height (in number of grid spaces it takes up)
 		private int m_iSpacesX = 0;
@@ -42,6 +43,7 @@ namespace DNDMapMaker
 			m_iSpacesX = iSpacesX;
 			m_iSpacesY = iSpacesY;
 			m_sIconName = sIconName;
+			m_pGridSpace = m_pParent.getGridSpace(0, 0);
 			loadImageBrush(sResName);
 			addToCanvas();
 		}
@@ -52,8 +54,16 @@ namespace DNDMapMaker
 		public GridSpace GridSpace { get { return m_pGridSpace; } set { m_pGridSpace = value; } }
 		public ImageBrush Image { get { return m_pBGImage; } set { m_pBGImage = value; } } 
 		public string Name { get { return m_sIconName; } set { m_sIconName = value; } }
-		
+		public bool Dead { get { return m_bDead; } set { m_bDead = value; } }
+
 		// FUNCTIONS
+
+		public void kill()
+		{
+			this.Dead = true;
+			//this.Name += "(Dead)";
+			this.loadImageBrush("_dedface.png");
+		}
 		
 		private void addToCanvas() { Master.activeCanvas.Children.Add(m_pBody);	}
 		
@@ -79,7 +89,6 @@ namespace DNDMapMaker
 
 			m_pBody.MouseDown += new MouseButtonEventHandler(body_MouseDown);
 
-			m_pGridSpace = m_pParent.getGridSpace(0, 0);
 			updatePosFromSpace();
 		}
 

@@ -37,7 +37,7 @@ namespace DNDMapMaker
 		//private Entity m_hoverEntity = null;
 		private Entity m_selectedEntity = null; // ONLY USED FOR PROPERTY STUFF
 		private Icon m_selectedIcon = null;
-		
+
 		private Map m_currentMap;
 
 		private ScaleTransform m_scale = new ScaleTransform();
@@ -76,7 +76,7 @@ namespace DNDMapMaker
 			disableProperties();
 
 			cnvsWorld.Focusable = true;
-			
+
 			//mediaElement1.Source = new Uri("C:\\trol.mp3");
 			//mediaElement1.Play();
 		}
@@ -101,8 +101,8 @@ namespace DNDMapMaker
 
 		public void setSelectedEntity(Entity e) { m_selectedEntity = e; fillPropList(); }
 
-		public void setSelectedIcon(Icon pSelectedIcon) 
-		{ 
+		public void setSelectedIcon(Icon pSelectedIcon)
+		{
 			m_selectedIcon = pSelectedIcon;
 
 			// select it in the playing icons listbox
@@ -110,8 +110,8 @@ namespace DNDMapMaker
 			{
 				if (((Label)pPanel.Children[1]).Content.ToString() == pSelectedIcon.Name) { lbPlayingIcons.SelectedItem = pPanel; }
 			}
-		} 
-		
+		}
+
 		// FUNCTIONS
 
 		public void addResource(string resName)
@@ -126,7 +126,7 @@ namespace DNDMapMaker
 
 			// update the list of playing icons
 			//StackPanel pMainPanel = pnlPlayingIcons;
-			
+
 			StackPanel pIconStack = new StackPanel();
 			pIconStack.Orientation = Orientation.Horizontal;
 
@@ -159,6 +159,7 @@ namespace DNDMapMaker
 
 		private void fillIconList()
 		{
+			lbIcons.Items.Clear();
 			List<string> pFileList = Directory.EnumerateFiles(Master.ICON_FOLDER).ToList();
 			foreach (string sFileName in pFileList)
 			{
@@ -378,6 +379,7 @@ namespace DNDMapMaker
 		private void lbIcons_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			ListBoxItem selected = (ListBoxItem)lbIcons.SelectedItem;
+			if (selected == null) return;
 			setIconPreviewPaneImage(selected.Content.ToString());
 		}
 		private void btnAddIcon_Click(object sender, RoutedEventArgs e)
@@ -551,7 +553,6 @@ namespace DNDMapMaker
 			{
 				if (pIcon.Name == sTarget)
 				{
-
 					m_currentMap.setSelectedIcon(pIcon);
 				}
 			}
@@ -585,6 +586,13 @@ namespace DNDMapMaker
 			{
 				cnvsWorld.Focus();
 			}
+		}
+
+		private void btnKillIcon_Click(object sender, RoutedEventArgs e)
+		{
+			if (m_selectedIcon == null) return;
+			m_selectedIcon.kill();
+			this.fillIconList();
 		}
 	}
 }

@@ -47,6 +47,9 @@
 				</ListBox>
 
 				<!-- Selected icon props -->
+				<StackPanel Grid.Row="1">
+					<Button Name="btnKillIcon" Content="Kill Icon" Click="btnKillIcon_Click"/>
+				</StackPanel>
 				
 				<!-- Icon library -->
 				<ListBox Grid.Row="2" Name="lbIcons" SelectionChanged="lbIcons_SelectionChanged" />
